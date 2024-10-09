@@ -1,101 +1,124 @@
+'use client'
+
+import axios from "axios";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+
+type Coin = {
+  id: string
+  market_cap_rank: number
+  symbol: string
+  name: string
+  image: string
+  current_price: number
+  price_change_percentage_24h: number
+  ath: number
+}
+
+type Currency= {
+  name: string
+  symbol: string
+}
+
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+const [coinList, setCoinList] = useState<Coin[]>([])
+const [coinTable, setCoinTable] = useState<Coin[]>([])
+const [coinSearch, setCoinSearch] = useState<string>('')
+const [currency, setCurrency] = useState<Currency>({name:'usd' , symbol:'$'})
+
+async function getCoinsList(currency: Currency) {
+  // const response = await axios.get(`https://api.coingecko.com/api/v3/coins/list`)
+  const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency.name}`)
+  
+  setCoinList(response.data)
+  setCoinTable(response.data)
+  }
+
+
+useEffect(() => {
+  getCoinsList(currency)
+},[currency])
+
+function handleInput(e : React.ChangeEvent<HTMLInputElement>) {
+  setCoinSearch(e.target.value)
+  if (e.target.value === "") {
+    setCoinTable(coinList)
+  }
+}
+async function handleSearch(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault()
+
+  const coins = await coinList.filter((coin)=> { 
+    return coin.name.toLowerCase().includes(coinSearch.toLowerCase())
+    })
+    setCoinTable(coins)
+}
+
+function selectCurrency (e: React.ChangeEvent<HTMLSelectElement>) {
+
+    if(e.target.value === "usd") {
+      setCurrency({name:'usd' , symbol:'$'})
+    }
+    else if(e.target.value === "gbp") {
+      setCurrency({name:'gbp', symbol:'£'})
+    }
+    else if(e.target.value === "eur") {
+      setCurrency({name:'eur', symbol:'€'})
+    }
+  }
+  
+  return (
+  <div className="font-[family-name:var(--font-geist-sans)]">
+    <main className="flex flex-col w-full min-h-screen items-center justify-center">
+      <h1 className="h1">Welcome to CRYPTONIQ</h1>
+      <p> Check the latest prices and update your portfolio</p>
+      <form onSubmit={handleSearch}>
+        <input
+        type="text"
+        placeholder="Enter your Crypto"
+        list="coinlist"
+        onChange={handleInput}
+        value={coinSearch}
+        className="text-red-800 text-center bg-green-100 border border-red-900 rounded-lg"
+        required
+        /> 
+        <datalist id='coinlist'>
+          {coinList.map((coin, index)=>(<option key={index} value={coin.name}/>))}
+        </datalist>
+        <button className="border border-green-900 bg-green-500 rounded-lg px-2 m-4 transition active:scale-90 hover:bg-green-300"  type="submit">Search</button>
+      </form>
+
+      <select onChange={selectCurrency}>
+          <option value="usd">$ USD</option>
+          <option value="gbp">£ GBP</option>
+          <option value="eur">€ EUR</option>
+      </select>
+
+
+      <div className="bg-purple-200 rounded-xl mx-auto">
+        <div className="grid-layout bg-purple-700 text-white p-3 rounded-t-xl">
+          <p>Rank</p> 
+          <p>Coin</p>
+          <p className="px-5">Price</p> 
+          <p className="flex justify-end">24h change </p>
+          <p className="flex justify-end">ATH </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        {coinTable.slice(0,10).map((coin) => (
+          <div key={coin.id} className="grid-layout items-center p-2">
+            <p>{coin.market_cap_rank}</p>
+            <div className="flex items-center gap-2">
+              <Image alt={`${coin.id}logo`} width={40} height={40} src={coin.image}/>
+              <p>{coin.name} ({coin.symbol})</p>
+            </div>
+            <p className="px-5">{currency.symbol}{coin.current_price}</p>
+            <p className="flex justify-end">{(coin.price_change_percentage_24h.toFixed(2))}%</p>
+            <p className="flex justify-end">{currency.symbol}{(coin.ath.toFixed(2))}</p>
+          </div>
+        ))}
+      </div>
+    </main>
+  </div>
   );
 }

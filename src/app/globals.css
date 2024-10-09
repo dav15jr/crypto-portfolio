@@ -25,3 +25,9 @@ body {
     text-wrap: balance;
   }
 }
+
+.grid-layout {
+display: grid;
+grid-template-columns:  0.5fr 2fr 1fr 1fr 1.5fr;
+padding:15px 20px;
+}
