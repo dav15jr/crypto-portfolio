@@ -1,60 +1,28 @@
 'use client'
 
-import axios from "axios";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-
-type Coin = {
-  id: string
-  market_cap_rank: number
-  symbol: string
-  name: string
-  image: string
-  current_price: number
-  price_change_percentage_24h: number
-  ath: number
-}
-
-type Currency= {
-  name: string
-  symbol: string
-}
-
+import { useState } from "react";
+import { useCryptoContext } from "./Context/context";
 
 export default function Home() {
-
-const [coinList, setCoinList] = useState<Coin[]>([])
-const [coinTable, setCoinTable] = useState<Coin[]>([])
-const [coinSearch, setCoinSearch] = useState<string>('')
-const [currency, setCurrency] = useState<Currency>({name:'usd' , symbol:'$'})
-
-async function getCoinsList(currency: Currency) {
-  // const response = await axios.get(`https://api.coingecko.com/api/v3/coins/list`)
-  const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency.name}`)
   
-  setCoinList(response.data)
-  setCoinTable(response.data)
-  }
-
-
-useEffect(() => {
-  getCoinsList(currency)
-},[currency])
+const [coinSearch, setCoinSearch] = useState<string>('')
+const { coinList, currency, setCurrency, coinTable, setCoinTable  } = useCryptoContext()
 
 function handleInput(e : React.ChangeEvent<HTMLInputElement>) {
-  setCoinSearch(e.target.value)
-  if (e.target.value === "") {
-    setCoinTable(coinList)
+    setCoinSearch(e.target.value)
+    if (e.target.value === "") {
+      setCoinTable(coinList)
+    }
   }
-}
 async function handleSearch(e: React.FormEvent<HTMLFormElement>) {
-  e.preventDefault()
+    e.preventDefault()
 
-  const coins = await coinList.filter((coin)=> { 
-    return coin.name.toLowerCase().includes(coinSearch.toLowerCase())
-    })
-    setCoinTable(coins)
-}
+    const coins = await coinList.filter((coin)=> { 
+      return coin.name.toLowerCase().includes(coinSearch.toLowerCase())
+      })
+      setCoinTable(coins)
+  }
 
 function selectCurrency (e: React.ChangeEvent<HTMLSelectElement>) {
 
@@ -67,9 +35,10 @@ function selectCurrency (e: React.ChangeEvent<HTMLSelectElement>) {
     else if(e.target.value === "eur") {
       setCurrency({name:'eur', symbol:'€'})
     }
-  }
+   }
   
   return (
+ 
   <div className="font-[family-name:var(--font-geist-sans)]">
     <main className="flex flex-col w-full min-h-screen items-center justify-center">
       <h1 className="h1">Welcome to CRYPTONIQ</h1>
