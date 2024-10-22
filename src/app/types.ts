@@ -42,10 +42,9 @@ export type Ledger = {
       name: string
       image: string
       currency: string          
-      quantity: number
-      amount: number
-      value: number
-      investedPrice: number
+      investedPrice: string | null
+      investedAmount: string
+      quantity: string
       currentPrice: number
       currentValue: number
       }
