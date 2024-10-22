@@ -26,8 +26,13 @@ body {
   }
 }
 
-.grid-layout {
+.crypto-list {
 display: grid;
 grid-template-columns:  0.5fr 2fr 1fr 1fr 1.5fr;
+padding:15px 20px;
+}
+.portfolio-layout {
+display: grid;
+grid-template-columns:  1.5fr 1fr 1fr 1fr 1fr 1fr;
 padding:15px 20px;
 }

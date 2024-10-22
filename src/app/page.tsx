@@ -67,7 +67,7 @@ function selectCurrency (e: React.ChangeEvent<HTMLSelectElement>) {
 
 
       <div className="bg-purple-200 rounded-xl mx-auto">
-        <div className="grid-layout bg-purple-700 text-white p-3 rounded-t-xl">
+        <div className="crypto-list bg-purple-700 text-white p-3 rounded-t-xl">
           <p>Rank</p> 
           <p>Coin</p>
           <p className="px-5">Price</p> 
@@ -75,7 +75,7 @@ function selectCurrency (e: React.ChangeEvent<HTMLSelectElement>) {
           <p className="flex justify-end">ATH </p>
         </div>
         {coinTable.slice(0,10).map((coin) => (
-          <div key={coin.id} className="grid-layout items-center p-2">
+          <div key={coin.id} className="crypto-list items-center p-2">
             <p>{coin.market_cap_rank}</p>
             <div className="flex items-center gap-2">
               <Image alt={`${coin.id}logo`} width={40} height={40} src={coin.image}/>

@@ -36,3 +36,16 @@ export type Context = {
         coinTable: Coin[]
         setCoinTable: React.Dispatch<React.SetStateAction<Coin[]>>
       }
+
+export type Ledger = {
+      symbol: string
+      name: string
+      image: string
+      currency: string          
+      quantity: number
+      amount: number
+      value: number
+      investedPrice: number
+      currentPrice: number
+      currentValue: number
+      }
