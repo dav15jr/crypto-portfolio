@@ -9,7 +9,21 @@ import Image from "next/image";
 
 export default function Portfolio() {
 
-  const [coinInfo, setCoinInfo] = useState<CoinInfo>()
+  const defaultCoinInfo: CoinInfo = {
+    symbol: '',
+    name: "",
+    image:{
+      small:"",
+      } ,
+    market_data: {
+      current_price: {
+        usd: 0,
+        gbp: 0,
+        eur: 0,
+      }}
+    }
+
+  const [coinInfo, setCoinInfo] = useState<CoinInfo>(defaultCoinInfo)
   const [coinDate, setCoinDate] = useState('')
   const [formDate, setFormDate] = useState('')
   const [coinName, setCoinName] = useState('')
@@ -20,16 +34,22 @@ export default function Portfolio() {
   const [portfolio, setPortfolio] = useState<Ledger[]>([])
   const [maxDate, setMaxDate] = useState('')
   const [minDate, setMinDate] = useState('')
-  const [coinPrice, setCoinPrice] = useState<string | null>('0')
+  const [coinPrice, setCoinPrice] = useState<string>('0')
   const [coinSelected, setCoinSelected] = useState('')
-  const [coinCurrency, setCoinCurrency] = useState<Currency['symbol']>('$')
+  const [coinCurrency, setCoinCurrency] = useState<Currency>({name:'usd', symbol:'$'})
   const [showDcaForm, setShowDcaForm] = useState(false)
 
-  const { coinList } = useCryptoContext()
-  const usdPrice = coinInfo?.market_data.current_price.usd
-  const gbpPrice = coinInfo?.market_data.current_price.gbp
-  const eurPrice = coinInfo?.market_data.current_price.eur
+  const [totalUSDInvested, setTotalUSDInvested] = useState(0)
+  const [totalUSDValue, setTotalUSDValue] = useState(0)
+  const [totalGBPInvested, setTotalGBPInvested] = useState(0)
+  const [totalGBPValue, setTotalGBPValue] = useState(0)
+  const [totalEURInvested, setTotalEURInvested] = useState(0)
+  const [totalEURValue, setTotalEURValue] = useState(0)
 
+  const { coinList } = useCryptoContext()
+  const usdPrice = coinInfo.market_data.current_price.usd
+  const gbpPrice = coinInfo.market_data.current_price.gbp
+  const eurPrice = coinInfo.market_data.current_price.eur
 
 
   const getCurrentDate = () => {  // get current date to limit choosing future date for progress entry.
@@ -57,8 +77,10 @@ export default function Portfolio() {
   async function getCoinInfo(e : React.FormEvent<HTMLFormElement>) {
       e.preventDefault()
       if (coinName !== 'Coin not found') {
-        const response = await axios.get(`https://api.coingecko.com/api/v3/coins/${coinName}/history?date=${coinDate}}`)
-        setCoinInfo(response.data)
+        const historicData = await axios.get(`https://api.coingecko.com/api/v3/coins/${coinName}/history?date=${coinDate}}`)
+        const currentData = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${coinName}&vs_currencies=${coinCurrency.name}`)
+        setCoinInfo(historicData.data)
+        setPriceNow(currentData.data[coinName][coinCurrency.name])
         selectPrice()
         setShowDcaForm(true)
       } else {
@@ -74,7 +96,6 @@ export default function Portfolio() {
         const selectedCoin = coinList.find(coin => coin.name === e.target.value);
         if (selectedCoin) {
             setCoinName(selectedCoin.id)
-            setPriceNow(selectedCoin.current_price)
         } else {
             setCoinName('Coin not found');
         }
@@ -105,12 +126,18 @@ export default function Portfolio() {
   function getDca(e : React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setShowDcaForm(false)
+    setCoinDate('')
+    setInvAmount('')
+    setCoinQty('')
+    setFormDate('')
+    setCoinCurrency({name:'', symbol:''})
+
     const dcaValue = (Number(priceNow)* Number(coinQty))
 
     setPortfolio((prev : Ledger[]) => {
       const updatedPortfolio = prev.map((item) => {
         // Check if the symbol & currency already exists in the portfolio
-        if (item.symbol === coinInfo?.symbol && item.currency === coinCurrency) {
+        if (item.symbol === coinInfo.symbol && item.currency === coinCurrency) {
           const totalInvested = (Number(item.investedAmount) + Number(invAmount)).toFixed(2).toString()
           const totalQty = (Number(item.quantity) + Number(coinQty)).toString()
           const avgPrice = ((Number(invAmount) + Number(item.investedAmount))/Number(totalQty)).toFixed(2).toString()
@@ -131,15 +158,15 @@ export default function Portfolio() {
       });
     
       // If the symbol & currency wasn't found in the previous array, add a new entry
-      const isCoinInPortfolio = prev.some((item) => (item.symbol === coinInfo?.symbol && item.currency === coinCurrency));
+      const isCoinInPortfolio = prev.some((item) => (item.symbol === coinInfo.symbol && item.currency === coinCurrency));
     
       if (!isCoinInPortfolio) {
         return [
           ...updatedPortfolio,
           {
-            symbol: coinInfo?.symbol,
-            name: coinInfo?.name,
-            image: coinInfo?.image.small,
+            symbol: coinInfo.symbol,
+            name: coinInfo.name,
+            image: coinInfo.image.small,
             currency: coinCurrency,
             investedPrice: coinPrice,
             investedAmount: invAmount,
@@ -152,31 +179,82 @@ export default function Portfolio() {
     
       return updatedPortfolio;
     });
-
     console.log('My portfolio', portfolio)
   }
 
- const selectPrice = useCallback(() => {
-  let price: string | undefined;
+  function selectCurrency (e: React.ChangeEvent<HTMLSelectElement>) {
 
-  switch (coinCurrency) {
-    case '$':
-      price = usdPrice?.toFixed(2)
-      break;
-    case '£':
-      price = gbpPrice?.toFixed(2)
-      break;
-    case '€':
-      price = eurPrice?.toFixed(2)
-      break;
-    default:
-  }
-  setCoinPrice(price || 'N/A');
-  }, [coinCurrency, usdPrice, gbpPrice, eurPrice])
+    if(e.target.value === "usd") {
+      setCoinCurrency({name:'usd' , symbol:'$'})
+
+    }
+    else if(e.target.value === "gbp") {
+      setCoinCurrency({name:'gbp', symbol:'£'})
+
+    }
+    else if(e.target.value === "eur") {
+      setCoinCurrency({name:'eur', symbol:'€'})
+  
+    }
+   }
+
+    const selectPrice = useCallback(() => {
+      let price = '0';
+
+      switch (coinCurrency.name) {
+        case 'usd':
+          price = usdPrice.toFixed(2)
+          break;
+        case 'gbp':
+          price = gbpPrice.toFixed(2)
+          break;
+        case 'eur':
+          price = eurPrice.toFixed(2)
+          break;
+        default:
+      }
+      setCoinPrice(price);
+      console.log('the hist price is:', price);
+      }, [coinCurrency, usdPrice, gbpPrice, eurPrice])
+
+        useEffect(() => {
+          selectPrice();
+        }, [coinCurrency, selectPrice]);
 
     useEffect(() => {
-      selectPrice();
-    }, [coinCurrency, selectPrice]);
+    // Initialize totals for each currency
+    let totalUSDValue = 0;
+    let totalUSDInvested = 0;
+    let totalGBPValue = 0;
+    let totalGBPInvested = 0;
+    let totalEURValue = 0;
+    let totalEURInvested = 0;
+
+    portfolio.forEach((coin) => {
+      if (coin.currency.name === 'usd') {
+        totalUSDValue += coin.currentValue;
+        totalUSDInvested += Number(coin.investedAmount);
+      } else if (coin.currency.name === 'gbp') {
+        totalGBPValue += coin.currentValue;
+        totalGBPInvested += Number(coin.investedAmount);
+      } else if (coin.currency.name === 'eur') {
+        totalEURValue += coin.currentValue;
+        totalEURInvested += Number(coin.investedAmount);
+      }
+    });
+
+    // After the loop, update the state
+    setTotalUSDValue(totalUSDValue);
+    setTotalUSDInvested(totalUSDInvested);
+
+    setTotalGBPValue(totalGBPValue);
+    setTotalGBPInvested(totalGBPInvested);
+
+    setTotalEURValue(totalEURValue);
+    setTotalEURInvested(totalEURInvested);
+
+    }, [portfolio]); // Make sure to recalculate when the portfolio changes
+    
 
   return ( 
     <main className="flex flex-col w-full min-h-screen items-center justify-center">
@@ -207,11 +285,11 @@ export default function Portfolio() {
       <datalist id='coinlist'>
       {coinList.map((coin, index)=>(<option key={index} value={coin.name}/>))}
       </datalist>
-      <select onChange={(e)=> setCoinCurrency(e.target.value)} required>
+      <select name="coincurrency" onChange={selectCurrency} required>
           <option value="">Currency</option>
-          <option value='$'>$ USD</option>
-          <option value='£'>£ GBP</option>
-          <option value='€'>€ EUR</option>
+          <option value='usd'>$ USD</option>
+          <option value='gbp'>£ GBP</option> 
+          <option value='eur'>€ EUR</option> 
       </select>
       <button 
           className="border border-slate-700 bg-blue-500 rounded-lg px-2 m-4 hover:bg-blue-300" 
@@ -223,7 +301,7 @@ export default function Portfolio() {
       <>
       <h2>Select Your Investment Type</h2>
       <form onSubmit={getDca} title='Investment type'>
-        <select onChange={(e)=> setDcaType(e.target.value)} required>
+        <select name="investmenttype" onChange={(e)=> setDcaType(e.target.value)} required>
           <option value=''>Select Type</option>
           <option value='amount'>Cash Amount ($,€,£)</option>
           <option value='qty'>Coin Quantity</option>
@@ -258,31 +336,40 @@ export default function Portfolio() {
       </form>
       </>
       }
-      <p>Coin:{coinInfo?.name} ({coinInfo?.symbol})</p>
-      <p>Price: {`${coinCurrency} ${coinPrice}`}</p>
-      <p>DCA ({coinCurrency}): {`${coinCurrency} ${invAmount}`}</p>
-      <p>DCA(amount): {`${coinQty} ${coinInfo?.name}`}</p>
-<div className="div">
-<div className="portfolio-layout bg-purple-700 text-white p-3 rounded-t-xl">
-      <p>Coin</p>
-      <p className="px-5">Price</p> 
-      <p className="px-5">Invested</p>
-      <p className="px-5">Quantity</p>
-      <p className="px-5">Current Price</p> 
-      <p className="flex justify-end">Current Value</p>
-</div>
+      <p>Coin:{coinInfo.name} ({coinInfo.symbol})</p>
+      <p>Price: {`${coinCurrency.symbol} ${coinPrice}`}</p>
+      <p>DCA ({coinCurrency.symbol}): {`${coinCurrency.symbol} ${invAmount}`}</p>
+      <p>DCA(amount): {`${coinQty} ${coinInfo.name}`}</p>
+    <div>
+      <h2>Total Portfolio Value</h2>
+      <p>Total USD Value: ${totalUSDValue.toFixed(2)}</p>
+      <p>Total USD Invested: ${(totalUSDInvested.toFixed(2))}</p>
+      <p>Total GBP Value: £{totalGBPValue.toFixed(2)}</p>
+      <p>Total GBP Invested: £{totalGBPInvested.toFixed(2)}</p>
+      <p>Total EUR Value: €{totalEURValue.toFixed(2)}</p>
+      <p>Total EUR Invested: €{totalEURInvested.toFixed(2)}</p>
+    </div>
 
-{portfolio.map((coin) => (
+    <div className="div">
+      <div className="portfolio-layout bg-purple-700 text-white p-3 rounded-t-xl">
+            <p>Coin</p>
+            <p className="px-5">Price</p> 
+            <p className="px-5">Invested</p>
+            <p className="px-5">Quantity</p>
+            <p className="px-5">Current Price</p> 
+            <p className="flex justify-end">Current Value</p> 
+      </div>
+      {portfolio.map((coin) => (
           <div key={`${coin.symbol}${coin.currency}`} className="portfolio-layout items-center p-2">
             <div className="flex items-center gap-2">
               <Image alt={`${coin.symbol}logo`} width={40} height={40} src={coin.image}/>
-              <p>{coin.name} ({coin.currency})</p>
+              <p>{coin.name} ({coin.currency.symbol})</p>
             </div>
-            <p className="px-5">{coin.currency}{coin.investedPrice}</p>
-            <p className="px-5">{coin.currency}{coin.investedAmount}</p>
+            <p className="px-5">{coin.currency.symbol}{coin.investedPrice}</p>
+            <p className="px-5">{coin.currency.symbol}{coin.investedAmount}</p>
             <p className="px-5">{coin.quantity}{coin.symbol}</p>
-            <p className="px-5">{coin.currency}{coin.currentPrice}</p>
-            <p className="flex justify-end">{coin.currency}{(coin.currentValue.toFixed(2))}</p>
+            <p className="px-5">{coin.currency.symbol}{coin.currentPrice}</p>
+            <p className="flex justify-end">{coin.currency.symbol}{(coin.currentValue.toFixed(2))}</p>
           </div>
         ))}
 {/* {coinList.slice(0,10).map((coin) => (
@@ -297,7 +384,7 @@ export default function Portfolio() {
             <p className="flex justify-end">{coinCurrency}{(coin.ath.toFixed(2))}</p>
           </div>
         ))} */}
-</div>
+    </div>
 
     </main>
   )

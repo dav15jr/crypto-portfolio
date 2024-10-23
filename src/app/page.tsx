@@ -25,7 +25,6 @@ async function handleSearch(e: React.FormEvent<HTMLFormElement>) {
   }
 
 function selectCurrency (e: React.ChangeEvent<HTMLSelectElement>) {
-
     if(e.target.value === "usd") {
       setCurrency({name:'usd' , symbol:'$'})
     }

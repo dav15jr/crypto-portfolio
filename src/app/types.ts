@@ -41,8 +41,8 @@ export type Ledger = {
       symbol: string
       name: string
       image: string
-      currency: string          
-      investedPrice: string | null
+      currency: Currency          
+      investedPrice: string
       investedAmount: string
       quantity: string
       currentPrice: number
