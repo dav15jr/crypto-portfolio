@@ -41,10 +41,16 @@ export default function Portfolio() {
 
   const [totalUSDInvested, setTotalUSDInvested] = useState(0)
   const [totalUSDValue, setTotalUSDValue] = useState(0)
+  const [totalUSDPnl, setTotalUSDPnl] = useState(0)
+  const [totalUSDPnlPct, setTotalUSDPnlPct] = useState(0)
   const [totalGBPInvested, setTotalGBPInvested] = useState(0)
   const [totalGBPValue, setTotalGBPValue] = useState(0)
+  const [totalGBPPnl, setTotalGBPPnl] = useState(0)
+  const [totalGBPPnlPct, setTotalGBPPnlPct] = useState(0)
   const [totalEURInvested, setTotalEURInvested] = useState(0)
   const [totalEURValue, setTotalEURValue] = useState(0)
+  const [totalEURPnl, setTotalEURPnl] = useState(0)
+  const [totalEURPnlPct, setTotalEURPnlPct] = useState(0)
 
   const { coinList } = useCryptoContext()
   const usdPrice = coinInfo.market_data.current_price.usd
@@ -130,7 +136,6 @@ export default function Portfolio() {
     setInvAmount('')
     setCoinQty('')
     setFormDate('')
-    setCoinCurrency({name:'', symbol:''})
 
     const dcaValue = (Number(priceNow)* Number(coinQty))
 
@@ -156,7 +161,6 @@ export default function Portfolio() {
           return item;
         }
       });
-    
       // If the symbol & currency wasn't found in the previous array, add a new entry
       const isCoinInPortfolio = prev.some((item) => (item.symbol === coinInfo.symbol && item.currency === coinCurrency));
     
@@ -176,25 +180,19 @@ export default function Portfolio() {
           },
         ];
       }
-    
       return updatedPortfolio;
     });
-    console.log('My portfolio', portfolio)
   }
 
   function selectCurrency (e: React.ChangeEvent<HTMLSelectElement>) {
-
     if(e.target.value === "usd") {
       setCoinCurrency({name:'usd' , symbol:'$'})
-
     }
     else if(e.target.value === "gbp") {
       setCoinCurrency({name:'gbp', symbol:'£'})
-
     }
     else if(e.target.value === "eur") {
       setCoinCurrency({name:'eur', symbol:'€'})
-  
     }
    }
 
@@ -214,15 +212,13 @@ export default function Portfolio() {
         default:
       }
       setCoinPrice(price);
-      console.log('the hist price is:', price);
       }, [coinCurrency, usdPrice, gbpPrice, eurPrice])
 
-        useEffect(() => {
-          selectPrice();
-        }, [coinCurrency, selectPrice]);
+    useEffect(() => {
+      selectPrice();
+    }, [coinCurrency, selectPrice]);
 
     useEffect(() => {
-    // Initialize totals for each currency
     let totalUSDValue = 0;
     let totalUSDInvested = 0;
     let totalGBPValue = 0;
@@ -242,18 +238,29 @@ export default function Portfolio() {
         totalEURInvested += Number(coin.investedAmount);
       }
     });
-
     // After the loop, update the state
+    const usdPnl = totalUSDValue - totalUSDInvested;
+    const usdPnlPct = totalUSDInvested !==0 ? (usdPnl / totalUSDInvested) * 100 : 0;  // Profit and Loss % of total USD Invested
     setTotalUSDValue(totalUSDValue);
     setTotalUSDInvested(totalUSDInvested);
-
+    setTotalUSDPnl(usdPnl)
+    setTotalUSDPnlPct(usdPnlPct);
+    
+    const gbpPnl = totalGBPValue - totalGBPInvested;
+    const gbpPnlPct = totalGBPInvested !==0 ? (gbpPnl / totalGBPInvested) * 100 : 0;  // Profit and Loss % of total GBP Invested
     setTotalGBPValue(totalGBPValue);
     setTotalGBPInvested(totalGBPInvested);
-
+    setTotalGBPPnl(gbpPnl)
+    setTotalGBPPnlPct(gbpPnlPct);
+    
+    const eurPnl = totalEURValue - totalEURInvested;
+    const eurPnlPct = totalEURInvested !== 0 ? (eurPnl / totalEURInvested) * 100 : 0;  // Profit and Loss % of total EUR Invested
     setTotalEURValue(totalEURValue);
     setTotalEURInvested(totalEURInvested);
+    setTotalEURPnl(eurPnl);
+    setTotalEURPnlPct(eurPnlPct);
 
-    }, [portfolio]); // Make sure to recalculate when the portfolio changes
+    }, [portfolio]); // recalculate when the portfolio changes
     
 
   return ( 
@@ -333,23 +340,66 @@ export default function Portfolio() {
           >
           Add Coin DCA
         </button>
-      </form>
+      </form> 
       </>
       }
       <p>Coin:{coinInfo.name} ({coinInfo.symbol})</p>
       <p>Price: {`${coinCurrency.symbol} ${coinPrice}`}</p>
       <p>DCA ({coinCurrency.symbol}): {`${coinCurrency.symbol} ${invAmount}`}</p>
       <p>DCA(amount): {`${coinQty} ${coinInfo.name}`}</p>
-    <div>
-      <h2>Total Portfolio Value</h2>
-      <p>Total USD Value: ${totalUSDValue.toFixed(2)}</p>
-      <p>Total USD Invested: ${(totalUSDInvested.toFixed(2))}</p>
-      <p>Total GBP Value: £{totalGBPValue.toFixed(2)}</p>
-      <p>Total GBP Invested: £{totalGBPInvested.toFixed(2)}</p>
-      <p>Total EUR Value: €{totalEURValue.toFixed(2)}</p>
-      <p>Total EUR Invested: €{totalEURInvested.toFixed(2)}</p>
-    </div>
 
+    <div className="overflow-x-auto bg-zinc-100 dark:bg-neutral-700">
+      <table className="table-auto min-w-full text-left text-sm whitespace-nowrap">
+        <thead className="tracking-wider border-b-2 text-white dark:border-neutral-600 border-t">
+          <tr className="bg-purple-500 border border-purple-500">
+            <th scope="col" className="px-6 py-2 border-x dark:border-neutral-600">
+            </th>
+            <th scope="col" className="px-6 py-2 border-x dark:border-neutral-600">
+              Invested
+            </th>
+            <th scope="col" className="px-6 py-2 border-x dark:border-neutral-600">
+              Value
+            </th>
+            <th scope="col" className="px-6 py-2 border-x dark:border-neutral-600">
+              PnL
+            </th>
+            <th scope="col" className="px-6 py-2 border-x dark:border-neutral-600">
+              PnL(%)
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr className="border-b dark:border-neutral-600 hover:bg-purple-100 dark:hover:bg-neutral-600">
+            <th scope="row" className="px-6 py-2 border-x dark:border-neutral-600">
+              USD ($)
+            </th>
+            <td className="px-6 py-2 border-x dark:border-neutral-600">${totalUSDInvested.toFixed(2)}</td>
+            <td className="px-6 py-2 border-x dark:border-neutral-600">${totalUSDValue.toFixed(2)}</td>
+          <td className="px-6 py-2 border-x dark:border-neutral-600">${totalUSDPnl.toFixed(2)}</td>
+          <td className="px-6 py-2 border-x dark:border-neutral-600">{totalUSDPnlPct.toFixed(2)}%</td>
+          </tr>
+          <tr className="border-b dark:border-neutral-600 hover:bg-purple-100 dark:hover:bg-neutral-600">
+            <th scope="row" className="px-6 py-2 border-x dark:border-neutral-600">
+              GBP (£)
+            </th>
+            <td className="px-6 py-2 border-x dark:border-neutral-600">£{totalGBPInvested.toFixed(2)}</td>
+            <td className="px-6 py-2 border-x dark:border-neutral-600">£{totalGBPValue.toFixed(2)}</td>
+            <td className="px-6 py-2 border-x dark:border-neutral-600">£{totalGBPPnl.toFixed(2)}</td>
+            <td className="px-6 py-2 border-x dark:border-neutral-600">{totalGBPPnlPct.toFixed(2)}%</td>
+          </tr>
+
+          <tr className="border-b dark:border-neutral-600 hover:bg-purple-100 dark:hover:bg-neutral-600">
+            <th scope="row" className="px-6 py-2 border-x dark:border-neutral-600">
+              EUR (€)
+            </th>
+            <td className="px-6 py-2 border-x dark:border-neutral-600">€{totalEURInvested.toFixed(2)}</td>
+            <td className="px-6 py-2 border-x dark:border-neutral-600">€{totalEURValue.toFixed(2)}</td>
+            <td className="px-6 py-2 border-x dark:border-neutral-600">€{totalEURPnl.toFixed(2)}</td>
+            <td className="px-6 py-2 border-x dark:border-neutral-600">{totalEURPnlPct.toFixed(2)}%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div className="div">
       <div className="portfolio-layout bg-purple-700 text-white p-3 rounded-t-xl">
             <p>Coin</p>
@@ -372,18 +422,6 @@ export default function Portfolio() {
             <p className="flex justify-end">{coin.currency.symbol}{(coin.currentValue.toFixed(2))}</p>
           </div>
         ))}
-{/* {coinList.slice(0,10).map((coin) => (
-          <div key={coin.id} className="grid-layout items-center p-2">
-            <p>{coin.market_cap_rank}</p>
-            <div className="flex items-center gap-2">
-              <Image alt={`${coin.id}logo`} width={40} height={40} src={coin.image}/>
-              <p>{coin.name} ({coin.symbol})</p>
-            </div>
-            <p className="px-5">{coinCurrency}{coin.current_price}</p>
-            <p className="flex justify-end">{(coin.price_change_percentage_24h.toFixed(2))}%</p>
-            <p className="flex justify-end">{coinCurrency}{(coin.ath.toFixed(2))}</p>
-          </div>
-        ))} */}
     </div>
 
     </main>
