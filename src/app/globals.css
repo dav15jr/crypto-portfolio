@@ -33,6 +33,6 @@ padding:15px 20px;
 }
 .portfolio-layout {
 display: grid;
-grid-template-columns:  1.5fr 1fr 1fr 1fr 1fr 1fr;
+grid-template-columns:  1.5fr 1fr 1fr 1fr 1fr 1fr 1fr;
 padding:15px 20px;
 }

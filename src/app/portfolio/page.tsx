@@ -31,13 +31,15 @@ export default function Portfolio() {
   const [coinQty, setCoinQty] = useState('')
   const [priceNow, setPriceNow] = useState(0)
   const [dcaType, setDcaType] = useState('amount')
-  const [portfolio, setPortfolio] = useState<Ledger[]>([])
   const [maxDate, setMaxDate] = useState('')
   const [minDate, setMinDate] = useState('')
   const [coinPrice, setCoinPrice] = useState<string>('0')
   const [coinSelected, setCoinSelected] = useState('')
   const [coinCurrency, setCoinCurrency] = useState<Currency>({name:'usd', symbol:'$'})
   const [showDcaForm, setShowDcaForm] = useState(false)
+
+  const storedPortfolio = localStorage.getItem("portfolio");
+  const [portfolio, setPortfolio] = useState<Ledger[]>(() => storedPortfolio ? JSON.parse(storedPortfolio) : [])
 
   const [totalUSDInvested, setTotalUSDInvested] = useState(0)
   const [totalUSDValue, setTotalUSDValue] = useState(0)
@@ -73,12 +75,19 @@ export default function Portfolio() {
     getCurrentDate()
   });
 
-
   function convDate(date: string) {
     const dateSplit = date.split("-")
     const formattedDate = `${dateSplit[2]}-${dateSplit[1]}-${dateSplit[0]}`
     setCoinDate(formattedDate)
   }
+  // Load portfolio from local storage if it exists
+  useEffect(() => {
+    const storedPortfolio = localStorage.getItem("portfolio");
+    if (storedPortfolio) {
+      setPortfolio(JSON.parse(storedPortfolio));
+      console.log("Loaded Portfolio,", storedPortfolio)
+    }
+  }, []);
 
   async function getCoinInfo(e : React.FormEvent<HTMLFormElement>) {
       e.preventDefault()
@@ -133,6 +142,7 @@ export default function Portfolio() {
     e.preventDefault()
     setShowDcaForm(false)
     setCoinDate('')
+    setCoinName('')
     setInvAmount('')
     setCoinQty('')
     setFormDate('')
@@ -219,6 +229,8 @@ export default function Portfolio() {
     }, [coinCurrency, selectPrice]);
 
     useEffect(() => {
+    localStorage.setItem("portfolio", JSON.stringify(portfolio));
+
     let totalUSDValue = 0;
     let totalUSDInvested = 0;
     let totalGBPValue = 0;
@@ -261,7 +273,14 @@ export default function Portfolio() {
     setTotalEURPnlPct(eurPnlPct);
 
     }, [portfolio]); // recalculate when the portfolio changes
-    
+
+    const deleteCoin = (name:string, currency:string) => {
+      setPortfolio((prevPortfolio) =>
+        prevPortfolio.filter(
+          (item) => !(item.name === name && item.currency.name === currency)
+        )
+      );
+    };
 
   return ( 
     <main className="flex flex-col w-full min-h-screen items-center justify-center">
@@ -348,7 +367,7 @@ export default function Portfolio() {
       <p>DCA ({coinCurrency.symbol}): {`${coinCurrency.symbol} ${invAmount}`}</p>
       <p>DCA(amount): {`${coinQty} ${coinInfo.name}`}</p>
 
-    <div className="overflow-x-auto bg-zinc-100 dark:bg-neutral-700">
+    <div className="overflow-x-auto m-3 bg-zinc-100 dark:bg-neutral-700 rounded-xl">
       <table className="table-auto min-w-full text-left text-sm whitespace-nowrap">
         <thead className="tracking-wider border-b-2 text-white dark:border-neutral-600 border-t">
           <tr className="bg-purple-500 border border-purple-500">
@@ -375,8 +394,8 @@ export default function Portfolio() {
             </th>
             <td className="px-6 py-2 border-x dark:border-neutral-600">${totalUSDInvested.toFixed(2)}</td>
             <td className="px-6 py-2 border-x dark:border-neutral-600">${totalUSDValue.toFixed(2)}</td>
-          <td className="px-6 py-2 border-x dark:border-neutral-600">${totalUSDPnl.toFixed(2)}</td>
-          <td className="px-6 py-2 border-x dark:border-neutral-600">{totalUSDPnlPct.toFixed(2)}%</td>
+          <td className={`px-6 py-2 border-x dark:border-neutral-600 ${totalUSDPnl === 0 ? '' : totalUSDPnl > 0 ? 'text-green-600' : 'text-red-600'}`}> ${totalUSDPnl.toFixed(2)}</td>
+          <td className={`px-6 py-2 border-x dark:border-neutral-600 ${totalUSDPnlPct === 0 ? '' : totalUSDPnlPct > 0 ? 'text-green-600' : 'text-red-600'}`}> {totalUSDPnlPct.toFixed(2)}%</td> 
           </tr>
           <tr className="border-b dark:border-neutral-600 hover:bg-purple-100 dark:hover:bg-neutral-600">
             <th scope="row" className="px-6 py-2 border-x dark:border-neutral-600">
@@ -384,8 +403,8 @@ export default function Portfolio() {
             </th>
             <td className="px-6 py-2 border-x dark:border-neutral-600">£{totalGBPInvested.toFixed(2)}</td>
             <td className="px-6 py-2 border-x dark:border-neutral-600">£{totalGBPValue.toFixed(2)}</td>
-            <td className="px-6 py-2 border-x dark:border-neutral-600">£{totalGBPPnl.toFixed(2)}</td>
-            <td className="px-6 py-2 border-x dark:border-neutral-600">{totalGBPPnlPct.toFixed(2)}%</td>
+            <td className={`px-6 py-2 border-x dark:border-neutral-600 ${totalGBPPnl === 0 ? 'text-red-200' : totalGBPPnl > 0 ? 'text-green-600' : 'text-red-600'}`}>£{totalGBPPnl.toFixed(2)}</td>
+            <td className={`px-6 py-2 border-x dark:border-neutral-600 ${totalGBPPnlPct === 0 ? '' : totalGBPPnlPct > 0 ? 'text-green-600' : 'text-red-600'}`}>{totalGBPPnlPct.toFixed(2)}%</td>
           </tr>
 
           <tr className="border-b dark:border-neutral-600 hover:bg-purple-100 dark:hover:bg-neutral-600">
@@ -394,23 +413,24 @@ export default function Portfolio() {
             </th>
             <td className="px-6 py-2 border-x dark:border-neutral-600">€{totalEURInvested.toFixed(2)}</td>
             <td className="px-6 py-2 border-x dark:border-neutral-600">€{totalEURValue.toFixed(2)}</td>
-            <td className="px-6 py-2 border-x dark:border-neutral-600">€{totalEURPnl.toFixed(2)}</td>
-            <td className="px-6 py-2 border-x dark:border-neutral-600">{totalEURPnlPct.toFixed(2)}%</td>
+            <td className={`px-6 py-2 border-x dark:border-neutral-600 ${totalEURPnl === 0 ? '' : totalEURPnl > 0 ? 'text-green-600' : 'text-red-600'}`}>€{totalEURPnl.toFixed(2)}</td>
+            <td className={`px-6 py-2 border-x dark:border-neutral-600 ${totalEURPnlPct === 0 ? '' : totalEURPnlPct > 0 ? 'text-green-600' : 'text-red-600'}`}>{totalEURPnlPct.toFixed(2)}%</td>
           </tr>
         </tbody>
       </table>
     </div>
     <div className="div">
       <div className="portfolio-layout bg-purple-700 text-white p-3 rounded-t-xl">
-            <p>Coin</p>
+            <p className="px-5">Coin</p>
             <p className="px-5">Price</p> 
             <p className="px-5">Invested</p>
             <p className="px-5">Quantity</p>
             <p className="px-5">Current Price</p> 
-            <p className="flex justify-end">Current Value</p> 
+            <p className="px-5">Current Value</p>
+            <p className="flex justify-end"></p>
       </div>
       {portfolio.map((coin) => (
-          <div key={`${coin.symbol}${coin.currency}`} className="portfolio-layout items-center p-2">
+          <div key={`${coin.symbol}${coin.currency.name}`}className="portfolio-layout items-center p-2">
             <div className="flex items-center gap-2">
               <Image alt={`${coin.symbol}logo`} width={40} height={40} src={coin.image}/>
               <p>{coin.name} ({coin.currency.symbol})</p>
@@ -419,7 +439,8 @@ export default function Portfolio() {
             <p className="px-5">{coin.currency.symbol}{coin.investedAmount}</p>
             <p className="px-5">{coin.quantity}{coin.symbol}</p>
             <p className="px-5">{coin.currency.symbol}{coin.currentPrice}</p>
-            <p className="flex justify-end">{coin.currency.symbol}{(coin.currentValue.toFixed(2))}</p>
+            <p className="px-5">{coin.currency.symbol}{(coin.currentValue.toFixed(2))}</p>
+            <button className="justify-end button font-bold border border-red-300  hover:bg-red-500 rounded-xl mx-3" onClick={() => deleteCoin(coin.name, coin.currency.name)} >Remove</button>
           </div>
         ))}
     </div>
