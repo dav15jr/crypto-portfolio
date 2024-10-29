@@ -52,7 +52,7 @@ function selectCurrency (e: React.ChangeEvent<HTMLSelectElement>) {
         className="text-red-800 text-center bg-green-100 border border-red-900 rounded-lg"
         required
         /> 
-        <datalist id='coinlist'>
+        <datalist id='coinlist'> 
           {coinList.map((coin, index)=>(<option key={index} value={coin.name}/>))}
         </datalist>
         <button className="border border-green-900 bg-green-500 rounded-lg px-2 m-4 transition active:scale-90 hover:bg-green-300"  type="submit">Search</button>

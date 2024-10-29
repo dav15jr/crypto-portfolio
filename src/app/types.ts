@@ -35,6 +35,8 @@ export type Context = {
         setCurrency: React.Dispatch<React.SetStateAction<Currency>>
         coinTable: Coin[]
         setCoinTable: React.Dispatch<React.SetStateAction<Coin[]>>
+        portfolio : Ledger[]
+        setPortfolio : React.Dispatch<React.SetStateAction<Ledger[]>>
       }
 
 export type Ledger = {
