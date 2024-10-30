@@ -68,8 +68,8 @@ export default function PortfolioTable() {
   }, [portfolio]); // recalculate when the portfolio changes
 
   return (
-    <div className="overflow-x-auto m-3 bg-zinc-100 dark:bg-neutral-700 rounded-xl">
-      <table className="table-auto min-w-full text-left text-sm whitespace-nowrap">
+    <div className="overflow-x-auto m-3 bg-zinc-100 dark:bg-zinc-800 border rounded-xl dark:border-neutral-600">
+      <table className="table-auto min-w-full text-left text-sm whitespace-nowrap ">
         <thead className="tracking-wider border-b-2 text-white dark:border-neutral-600 border-t">
           <tr className="bg-purple-500 border border-purple-500">
             <th
@@ -103,7 +103,7 @@ export default function PortfolioTable() {
           </tr>
         </thead>
         <tbody>
-          <tr className="border-b dark:border-neutral-600 hover:bg-purple-100 dark:hover:bg-neutral-600">
+          <tr className="border-b dark:border-neutral-600 hover:bg-purple-100 dark:hover:bg-black">
             <th
               scope="row"
               className="px-6 py-2 border-x dark:border-neutral-600"
@@ -141,7 +141,7 @@ export default function PortfolioTable() {
               {totalUSDPnlPct.toFixed(2)}%
             </td>
           </tr>
-          <tr className="border-b dark:border-neutral-600 hover:bg-purple-100 dark:hover:bg-neutral-600">
+          <tr className="border-b dark:border-neutral-600 hover:bg-purple-100 dark:hover:bg-black">
             <th
               scope="row"
               className="px-6 py-2 border-x dark:border-neutral-600"
@@ -178,7 +178,7 @@ export default function PortfolioTable() {
             </td>
           </tr>
 
-          <tr className="border-b dark:border-neutral-600 hover:bg-purple-100 dark:hover:bg-neutral-600">
+          <tr className="border-b dark:border-neutral-600 hover:bg-purple-100 dark:hover:bg-black">
             <th
               scope="row"
               className="px-6 py-2 border-x dark:border-neutral-600"

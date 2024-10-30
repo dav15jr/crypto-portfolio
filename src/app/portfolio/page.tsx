@@ -38,7 +38,7 @@ export default function Portfolio() {
 
 
   return ( 
-    <main className="flex flex-col w-full min-h-screen items-center justify-center">
+    <main className="flex flex-col w-full min-h-screen items-center justify-center dark:bg-gray-900 dark:text-white">
       <h1>WELCOME TO YOUR PORTFOLIO</h1>
       <CryptoForm 
         coinInfo = {coinInfo} 

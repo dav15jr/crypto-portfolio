@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import CryptoListProvider from "./Context/context";
+import Navbar from "./Components/Navbar";
 
 
 const geistSans = localFont({
@@ -16,8 +17,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Crypto Portal",
-  description: "Track your assests",
+  title: "Crypto Knight",
+  description: "Track your assets",
 };
 
 export default function RootLayout({
@@ -31,6 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <CryptoListProvider>
+        <Navbar />
           {children}
         </CryptoListProvider>
       </body>

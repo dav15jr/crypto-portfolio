@@ -7,7 +7,7 @@ import { useCryptoContext } from "./Context/context";
 export default function Home() {
   
 const [coinSearch, setCoinSearch] = useState<string>('')
-const { coinList, currency, setCurrency, coinTable, setCoinTable  } = useCryptoContext()
+const { coinList, currency, coinTable, setCoinTable  } = useCryptoContext()
 
 function handleInput(e : React.ChangeEvent<HTMLInputElement>) {
     setCoinSearch(e.target.value)
@@ -24,23 +24,12 @@ async function handleSearch(e: React.FormEvent<HTMLFormElement>) {
       setCoinTable(coins)
   }
 
-function selectCurrency (e: React.ChangeEvent<HTMLSelectElement>) {
-    if(e.target.value === "usd") {
-      setCurrency({name:'usd' , symbol:'$'})
-    }
-    else if(e.target.value === "gbp") {
-      setCurrency({name:'gbp', symbol:'£'})
-    }
-    else if(e.target.value === "eur") {
-      setCurrency({name:'eur', symbol:'€'})
-    }
-   }
   
   return (
  
-  <div className="font-[family-name:var(--font-geist-sans)]">
+  <div className="font-[family-name:var(--font-geist-sans)]  dark:bg-gray-900 dark:text-white">
     <main className="flex flex-col w-full min-h-screen items-center justify-center">
-      <h1 className="h1">Welcome to CRYPTONIQ</h1>
+      <h1 className="h1">Welcome to CRYPTO KNIGHT</h1>
       <p> Check the latest prices and update your portfolio</p>
       <form onSubmit={handleSearch}>
         <input
@@ -58,14 +47,7 @@ function selectCurrency (e: React.ChangeEvent<HTMLSelectElement>) {
         <button className="border border-green-900 bg-green-500 rounded-lg px-2 m-4 transition active:scale-90 hover:bg-green-300"  type="submit">Search</button>
       </form>
 
-      <select onChange={selectCurrency}>
-          <option value="usd">$ USD</option>
-          <option value="gbp">£ GBP</option>
-          <option value="eur">€ EUR</option>
-      </select>
-
-
-      <div className="bg-purple-200 rounded-xl mx-auto">
+      <div className="bg-purple-200 rounded-xl mx-auto  dark:bg-purple-900">
         <div className="crypto-list bg-purple-700 text-white p-3 rounded-t-xl">
           <p>Rank</p> 
           <p>Coin</p>

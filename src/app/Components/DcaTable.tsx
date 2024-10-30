@@ -27,7 +27,7 @@ export default function DcaTable() {
             <p className="flex justify-end"></p>
         </div>
         {portfolio.map((coin) => (
-            <div key={`${coin.symbol}${coin.currency.name}`}className="portfolio-layout items-center p-2  hover:bg-purple-100">
+            <div key={`${coin.symbol}${coin.currency.name}`}className="portfolio-layout items-center p-2 bg-purple-100 hover:bg-purple-200 dark:bg-purple-900 dark:hover:bg-black">
             <div className="flex items-center gap-2">
                 <Image alt={`${coin.symbol}logo`} width={40} height={40} src={coin.image}/>
                 <p>{coin.name} ({coin.currency.symbol})</p>
@@ -37,7 +37,7 @@ export default function DcaTable() {
             <p className="px-5">{coin.quantity}{coin.symbol}</p>
             <p className="px-5">{coin.currency.symbol}{coin.currentPrice}</p>
             <p className="px-5">{coin.currency.symbol}{(coin.currentValue.toFixed(2))}</p>
-            <button className="justify-end button font-bold border border-red-300  hover:bg-red-500 rounded-xl mx-3" onClick={() => deleteCoin(coin.name, coin.currency.name)} >Remove</button>
+            <button className="justify-end button font-bold border bg-white border-red-300 dark:text-black dark:border-red-600 hover:bg-red-500  dark:hover:bg-red-500 rounded-xl mx-3" onClick={() => deleteCoin(coin.name, coin.currency.name)} >Remove</button>
             </div>
         ))}
   </div>

@@ -17,10 +17,10 @@ type CryptoFormProps = {
   setCoinDate: Dispatch<SetStateAction<string>>;
   formDate: string;
   setFormDate: Dispatch<SetStateAction<string>>;
-  setCoinInfo: Dispatch<SetStateAction<CoinInfo>>; // assuming coin info is a string
-  setPriceNow: Dispatch<SetStateAction<number>>; // assuming price now is a number
+  setCoinInfo: Dispatch<SetStateAction<CoinInfo>>;
+  setPriceNow: Dispatch<SetStateAction<number>>; 
   coinCurrency: Currency;
-  setCoinCurrency: Dispatch<SetStateAction<Currency>>; // if this is a number
+  setCoinCurrency: Dispatch<SetStateAction<Currency>>;
   setCoinPrice: Dispatch<SetStateAction<string>>;
   setShowDcaForm: Dispatch<SetStateAction<boolean>>;
 };
