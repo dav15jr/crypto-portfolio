@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useCryptoContext } from "./Context/context";
+import InfoSection from "./Components/InfoSection";
+import HeroSection from "./Components/HeroSection";
 
 export default function Home() {
   
@@ -29,6 +31,7 @@ async function handleSearch(e: React.FormEvent<HTMLFormElement>) {
  
   <div className="font-[family-name:var(--font-geist-sans)]  dark:bg-gray-900 dark:text-white">
     <main className="flex flex-col w-full min-h-screen items-center justify-center">
+      <HeroSection />
       <h1 className="h1">Welcome to CRYPTO KNIGHT</h1>
       <p> Check the latest prices and update your portfolio</p>
       <form onSubmit={handleSearch}>
@@ -68,6 +71,7 @@ async function handleSearch(e: React.FormEvent<HTMLFormElement>) {
           </div>
         ))}
       </div>
+      <InfoSection />
     </main>
   </div>
   );

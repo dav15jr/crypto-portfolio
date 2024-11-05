@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Menu, X, ArrowDownToLine, Globe, Moon, Sun } from 'lucide-react';
+import { X, ArrowDownToLine, Globe, Moon, Sun, Grip } from 'lucide-react';
 import { useCryptoContext } from '../Context/context';
 
 export default function Navbar() {
@@ -43,34 +43,34 @@ export default function Navbar() {
             />
           </Link>
           <div className="container hidden lg:flex justify-between items-center gap-6">
-            <Link href="">Buy Crypto</Link>
-            <Link href="">Markets</Link>
-            <Link href="">Spot</Link>
-            <Link href="">Derivatives 🔥</Link>
-            <Link href="">Copy Trading</Link>
-            <Link href="">Wealth</Link>
-            <Link href="">Rewards Hub</Link>
-            <Link href="/portfolio">Portfolio</Link>
-            <Link href="">More</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="">Buy Crypto</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="">Markets</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="">Spot</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="">Derivatives 🔥</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="">Copy Trading</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="">Wealth</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="">Rewards Hub</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="/portfolio">Portfolio</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="">More</Link>
           </div>
           <ul className={`${menuOpen ? "flex" : "hidden"} flex-col lg:hidden gap-3 mt-5`}>
-            <Link href="">Buy Crypto</Link>
-            <Link href="">Markets</Link>
-            <Link href="">Spot</Link>
-            <Link href="">Derivatives 🔥</Link>
-            <Link href="">Copy Trading</Link>
-            <Link href="">Wealth</Link>
-            <Link href="">Rewards Hub</Link>
-            <Link href="/portfolio">Portfolio</Link>
-            <Link href="">More</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="">Buy Crypto</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="">Markets</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="">Spot</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="">Derivatives 🔥</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="">Copy Trading</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="">Wealth</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="">Rewards Hub</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="/portfolio">Portfolio</Link>
+            <Link className="no-underline hover:underline hover:text-green-400" href="">More</Link>
           </ul>
           <button
-          className="lg:hidden flex items-start my-3"
+          className="lg:hidden flex items-start my-3 hover:text-green-500"
             onClick={() => {
               setMenuOpen(!menuOpen);
             }}
           >
-            {menuOpen ? <X /> : <Menu />}
+            {menuOpen ? <X /> : <Grip />}
           </button>
         </div>
         <div className={`${menuOpen ? "flex items-center top-8 right-5 absolute" : "flex-row"} flex gap-3 lg:static`}>
