@@ -68,10 +68,10 @@ export default function PortfolioTable() {
   }, [portfolio]); // recalculate when the portfolio changes
 
   return (
-    <div className="overflow-x-auto m-3 bg-zinc-100 dark:bg-zinc-800 border rounded-xl dark:border-neutral-600">
-      <table className="table-auto min-w-full text-left text-sm whitespace-nowrap ">
+    <div className="overflow-x-auto m-8 bg-zinc-100 dark:bg-gray-900 border rounded-xl dark:border-neutral-600">
+      <table className="table-auto text-sm sm:text-base whitespace-nowrap ">
         <thead className="tracking-wider border-b-2 text-white dark:border-neutral-600 border-t">
-          <tr className="bg-purple-500 border border-purple-500">
+          <tr className="bg-purple-600 border border-purple-500">
             <th
               scope="col"
               className="px-6 py-2 border-x dark:border-neutral-600"

@@ -29,44 +29,50 @@ async function handleSearch(e: React.FormEvent<HTMLFormElement>) {
   
   return (
  
-  <div className="font-[family-name:var(--font-geist-sans)]  dark:bg-gray-900 dark:text-white">
+  <div className="font-[family-name:var(--font-geist-sans)]  dark:bg-black dark:text-white px-2">
     <main className="flex flex-col w-full min-h-screen items-center justify-center">
       <HeroSection />
-      <h1 className="h1">Welcome to CRYPTO KNIGHT</h1>
-      <p> Check the latest prices and update your portfolio</p>
-      <form onSubmit={handleSearch}>
+      <h1 className="text-2xl sm:text-4xl">Welcome to CRYPTO KNIGHT</h1>
+      <p className="text-lg sm:text-xl text-center pt-5"> Find your coin&#39;s the latest price</p>
+      <form onSubmit={handleSearch} className="sm:text-lg ">
         <input
         type="text"
         placeholder="Enter your Crypto"
         list="coinlist"
         onChange={handleInput}
         value={coinSearch}
-        className="text-red-800 text-center bg-green-100 border border-red-900 rounded-lg"
+        className="bg-purple-100 border border-purple-700 rounded-lg p-2 hover:border-purple-500 hover:border-2 transition duration-700 ease-in-out"
         required
         /> 
         <datalist id='coinlist'> 
           {coinList.map((coin, index)=>(<option key={index} value={coin.name}/>))}
         </datalist>
-        <button className="border border-green-900 bg-green-500 rounded-lg px-2 m-4 transition active:scale-90 hover:bg-green-300"  type="submit">Search</button>
+        <button className="border border-purple-900 bg-purple-600 rounded-3xl p-2 m-4 text-white transition active:scale-90 hover:bg-green-800"  type="submit">Search</button>
       </form>
 
-      <div className="bg-purple-200 rounded-xl mx-auto  dark:bg-purple-900">
-        <div className="crypto-list bg-purple-700 text-white p-3 rounded-t-xl">
+      <div className="bg-purple-200 rounded-xl dark:bg-purple-900 min-w-[300px] m-2">
+        <div className="crypto-list bg-purple-700 text-white rounded-t-xl text-xs sm:text-sm md:text-base p-2 sm:p-3">
           <p>Rank</p> 
-          <p>Coin</p>
-          <p className="px-5">Price</p> 
-          <p className="flex justify-end">24h change </p>
-          <p className="flex justify-end">ATH </p>
+          <p className="px-2">Coin</p>
+          <p className="px-2 sm:px-5">Price</p> 
+          <p className="flex justify-end">24h Change</p>
+          <p className="flex justify-end px-2">ATH </p>
         </div>
         {coinTable.slice(0,10).map((coin) => (
-          <div key={coin.id} className="crypto-list items-center p-2">
+          <div key={coin.id} className="crypto-list items-center text-xs sm:text-sm md:text-base p-2 sm:p-3">
             <p>{coin.market_cap_rank}</p>
-            <div className="flex items-center gap-2">
-              <Image alt={`${coin.id}logo`} width={40} height={40} src={coin.image}/>
-              <p>{coin.name} ({coin.symbol})</p>
+            <div className="flex items-center gap-1 sm:gap-2">
+              <Image alt={`${coin.id}logo`} width={30} height={30} src={coin.image}/>
+              <p>{coin.name} ({(coin.symbol).toUpperCase()})</p>
             </div>
-            <p className="px-5">{currency.symbol}{coin.current_price}</p>
-            <p className="flex justify-end">{(coin.price_change_percentage_24h.toFixed(2))}%</p>
+            <p className="px-2 sm:px-5">{currency.symbol}{coin.current_price}</p>
+            <p className={`flex justify-center ${
+                coin.price_change_percentage_24h === 0
+                  ? ''
+                  : coin.price_change_percentage_24h > 0
+                  ? 'text-green-600'
+                  : 'text-red-600'
+              }`}  >{(coin.price_change_percentage_24h.toFixed(2))}%</p>
             <p className="flex justify-end">{currency.symbol}{(coin.ath.toFixed(2))}</p>
           </div>
         ))}

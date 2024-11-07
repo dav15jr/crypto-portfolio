@@ -18,7 +18,7 @@ type CryptoFormProps = {
   formDate: string;
   setFormDate: Dispatch<SetStateAction<string>>;
   setCoinInfo: Dispatch<SetStateAction<CoinInfo>>;
-  setPriceNow: Dispatch<SetStateAction<number>>; 
+  setPriceNow: Dispatch<SetStateAction<number>>;
   coinCurrency: Currency;
   setCoinCurrency: Dispatch<SetStateAction<Currency>>;
   setCoinPrice: Dispatch<SetStateAction<string>>;
@@ -132,7 +132,7 @@ export default function CryptoForm({
       case 'eur':
         price = eurPrice.toFixed(2);
         break;
-        default:
+      default:
         price = '0';
     }
     setCoinPrice(price);
@@ -144,43 +144,61 @@ export default function CryptoForm({
 
   return (
     <main>
-      <h2 className="flex justify-center">Select Your Coin</h2>
-      <form onSubmit={getCoinInfo}>
+      <h2 className="flex justify-center text-2xl p-2">Select Your Coin</h2>
+      <form onSubmit={getCoinInfo} className="dark:text-black flex flex-col sm:flex-row p-2 max-w-[400px] sm:max-w-[900px] mx-auto" >
+      <div className="mb-2">
+      <label htmlFor="coin" className='block pl-3 text-sm text-gray-700 font-semibold'>Coin:</label>
         <input
           type="text"
-          name="name"
-          placeholder="Enter your Crypto"
+          name="coin"
+          id="coin"
+          placeholder="Select your Coin"
           list="coinlist"
           value={coinSelected}
           onChange={selectCoin}
+          className="border border-purple-900 rounded-xl p-2 m-1 w-full sm:w-auto"
           required
         />
-        <input
-          type="date"
-          name="date"
-          placeholder=""
-          max={maxDate}
-          min={minDate}
-          value={formDate}
-          onChange={selectCoin}
-          className="text-red-800 text-center bg-green-100 border border-red-900 rounded-lg"
-          required
-        />
+        </div>
         <datalist id="coinlist">
           {coinList.map((coin, index) => (
             <option key={index} value={coin.name} />
           ))}
         </datalist>
-        <select name="coincurrency" onChange={selectCurrency} required>
+        <div className="mb-2">
+        <label htmlFor="date" className='block pl-3 text-sm text-gray-700 font-semibold'>Date:</label>
+        <input
+          type="date"
+          name="date"
+          id="date"
+          placeholder="Date"
+          max={maxDate}
+          min={minDate}
+          value={formDate}
+          onChange={selectCoin}
+          className="border border-purple-900 rounded-xl p-2 sm:p-[5px] m-1 w-full sm:w-auto"
+          required
+          />
+        </div>
+        <div className="mb-2">
+        <label htmlFor="coincurrency" className='block pl-3 text-sm text-gray-700 font-semibold'>Currency:</label>
+        <select
+          name="coincurrency"
+          id="coincurrency"
+          onChange={selectCurrency}
+          className="border border-purple-900 rounded-xl p-2 m-1 w-full sm:w-auto"
+          required
+        >
           <option value="">Currency</option>
           <option value="usd">$ USD</option>
           <option value="gbp">£ GBP</option>
           <option value="eur">€ EUR</option>
-        </select>
+        </select> 
+        </div>
         <button
-          className="border border-slate-700 bg-blue-500 rounded-lg px-2 m-4 hover:bg-blue-300"
+          className="h-10 border border-purple-900 text-white bg-purple-600 rounded-xl hover:bg-purple-400 mx-2 p-2 sm:mt-6"
           type="submit"
-        >
+          >
           Get Coin Price
         </button>
       </form>

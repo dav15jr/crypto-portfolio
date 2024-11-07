@@ -3,36 +3,38 @@ import React from 'react';
 
 export default function HeroSection() {
   return (
-    <section className="flex justify-center items-center mx-auto max-w-[1200px]">
+    <section className="flex flex-col md:flex-row justify-center items-center mx-auto max-w-[1200px] min-w-[350px] py-5 px-2">
       <div className="flex flex-col gap-4 max-w-[550px] px-4">
-        <h2 className="text-6xl font-semibold leading-tight">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight">
           🏆 SuperX Futures Championship
         </h2>
-        <p className="text-3xl text-zinc-600 font-medium">
+        <p className="text-xl md:text-2xl lg:text-3xl text-zinc-500 font-medium">
           Register for the event and grab rewards. Join to share a $600,000
           prize pool {'>>'}
         </p>
         <div className="my-5">
-          <p className="mb-7 font-medium text-xl">
+          <p className="mb-7 font-medium md:text-lg lg:text-xl">
             🎁 Sign up now to claim a 6000+ USDT welcome gift
           </p>
           <input
             type="text"
             placeholder="Enter Phone Number/Email"
-            className="border border-zinc-400 p-3 text-xl w-[65%]"
+            className="border border-zinc-400 rounded-3xl sm:rounded-md p-2 sm:p-3 my-3 sm:mr-3 sm:text-xl sm:w-[65%] w-full hover:border-purple-500 hover:border-2 transition duration-700 ease-in-out"
           />
-          <button className="text-white text-xl bg-blue-500 border py-3 px-4 ml-4 rounded-3xl">
+          <button className="text-white md:text-xl bg-purple-500 hover:bg-purple-800 border py-2 sm:p-3 rounded-3xl w-full sm:w-[7rem] transition active:scale-90 active:text-green-300">
             Sign Up
           </button>
         </div>
       </div>
-      <Image
-        src="/assets/cryptoHero-01.png"
-        className=""
-        alt=""
-        width={600}
-        height={600}
-      ></Image>
+      <div className="flex max-w-[550px]">
+        <Image
+          src="/assets/cryptoHero-01.png"
+          alt="Picture of futures championship promotion"
+          width={500}
+          height={500}
+          layout="responsive"
+        ></Image>
+      </div>
     </section>
   );
 }

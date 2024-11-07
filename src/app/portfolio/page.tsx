@@ -31,15 +31,15 @@ export default function Portfolio() {
   const [invAmount, setInvAmount] = useState<string>('')
   const [coinQty, setCoinQty] = useState<string>('')
   const [priceNow, setPriceNow] = useState(0)
-
   const [coinPrice, setCoinPrice] = useState<string>('0')
   const [coinCurrency, setCoinCurrency] = useState<Currency>({name:'usd', symbol:'$'})
   const [showDcaForm, setShowDcaForm] = useState<boolean>(false)
 
 
   return ( 
-    <main className="flex flex-col w-full min-h-screen items-center justify-center dark:bg-gray-900 dark:text-white">
-      <h1>WELCOME TO YOUR PORTFOLIO</h1>
+    <main className="flex flex-col items-center justify-center dark:bg-gray-900 dark:text-white">
+      <h1 className="text-3xl md:text-5xl p-4 font-bold">MY PORTFOLIO</h1>
+      <div className=" border-purple-600 p-3 shadow-purple-300 shadow-md rounded-xl bg-slate-100 dark:bg-gray-800">
       <CryptoForm 
         coinInfo = {coinInfo} 
         coinName = {coinName} 
@@ -56,7 +56,7 @@ export default function Portfolio() {
         setShowDcaForm = {setShowDcaForm}
 
         />
-      {showDcaForm &&
+      {!showDcaForm &&
         <DcaForm 
           coinInfo = {coinInfo} 
           coinPrice = {coinPrice} 
@@ -73,15 +73,33 @@ export default function Portfolio() {
         
         />
       }
-      <p>Coin:{coinInfo.name} ({coinInfo.symbol})</p>
-      <p>Price: {`${coinCurrency.symbol} ${coinPrice}`}</p>
-      <p>DCA ({coinCurrency.symbol}): {`${coinCurrency.symbol} ${invAmount}`}</p>
-      <p>DCA(amount): {`${coinQty} ${coinInfo.name}`}</p>
+    <div className="border border-neutral-500 rounded-lg my-5 min-w-[450px] overflow-x-auto">
+      <table className="table-auto text-left w-full">
+        <thead className="bg-purple-500 text-zinc-100 ">
+          <tr className=''>
+            <th className="border border-neutral-400" >Coin</th>
+            <th className="border border-neutral-400" >Date</th>
+            <th className="border border-neutral-400" >Price</th>
+            <th className="border border-neutral-400" >Quantity</th>
+            <th className="border border-neutral-400" >Amount ({coinCurrency.symbol}) </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="border border-neutral-400">{coinInfo.name} ({coinInfo.symbol})</td>
+            <td className="border border-neutral-400">{`${coinDate}`}</td>
+            <td className="border border-neutral-400">{`${coinCurrency.symbol} ${coinPrice}`}</td>
+            <td className="border border-neutral-400">{`${coinQty} ${coinInfo.symbol}`}</td>
+            <td className="border border-neutral-400">{`${coinCurrency.symbol} ${invAmount}`}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div> 
+    </div> 
 
-    <PortfolioTable />
 
-    <DcaTable />
-    
+      <PortfolioTable />
+      <DcaTable />
     </main>
   )
 }

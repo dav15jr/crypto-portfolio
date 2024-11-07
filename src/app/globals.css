@@ -28,11 +28,10 @@ body {
 
 .crypto-list {
 display: grid;
-grid-template-columns:  0.5fr 2fr 1fr 1fr 1.5fr;
-padding:15px 20px;
+grid-template-columns:  0.5fr 2fr 1fr 1fr 1fr;
 }
 .portfolio-layout {
 display: grid;
 grid-template-columns:  1.5fr 1fr 1fr 1fr 1fr 1fr 1fr;
-padding:15px 20px;
+padding:10px 15px;
 }

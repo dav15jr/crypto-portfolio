@@ -16,8 +16,8 @@ export default function DcaTable() {
   
 
   return (
-    <div>
-        <div className="portfolio-layout bg-purple-700 text-white p-3 rounded-t-xl">
+    <div className="min-w-[400px]" >
+        <div className="portfolio-layout bg-purple-700 text-white text-sm sm:text-base rounded-t-xl">
             <p className="px-5">Coin</p>
             <p className="px-5">Price</p> 
             <p className="px-5">Invested</p>
@@ -27,7 +27,7 @@ export default function DcaTable() {
             <p className="flex justify-end"></p>
         </div>
         {portfolio.map((coin) => (
-            <div key={`${coin.symbol}${coin.currency.name}`}className="portfolio-layout items-center p-2 bg-purple-100 hover:bg-purple-200 dark:bg-purple-900 dark:hover:bg-black">
+            <div key={`${coin.symbol}${coin.currency.name}`}className="portfolio-layout items-center bg-purple-100 hover:bg-purple-200 dark:bg-purple-900 dark:hover:bg-black text-sm sm:text-base">
             <div className="flex items-center gap-2">
                 <Image alt={`${coin.symbol}logo`} width={40} height={40} src={coin.image}/>
                 <p>{coin.name} ({coin.currency.symbol})</p>
@@ -37,7 +37,7 @@ export default function DcaTable() {
             <p className="px-5">{coin.quantity}{coin.symbol}</p>
             <p className="px-5">{coin.currency.symbol}{coin.currentPrice}</p>
             <p className="px-5">{coin.currency.symbol}{(coin.currentValue.toFixed(2))}</p>
-            <button className="justify-end button font-bold border bg-white border-red-300 dark:text-black dark:border-red-600 hover:bg-red-500  dark:hover:bg-red-500 rounded-xl mx-3" onClick={() => deleteCoin(coin.name, coin.currency.name)} >Remove</button>
+            <button className="justify-end button font-bold border bg-white border-red-300 dark:text-black dark:border-red-600 hover:bg-red-500  dark:hover:bg-red-500 rounded-xl mx-3 px-2 text-sm sm:text-base" onClick={() => deleteCoin(coin.name, coin.currency.name)} >Remove</button>
             </div>
         ))}
   </div>
