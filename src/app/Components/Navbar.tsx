@@ -41,7 +41,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="bg-purple-700 text-white text-sm sm:text-base lg:text-lg p-3 sm:p-6 md:flex md:justify-between md:items-center">
+    <nav className="bg-purple-700 w-screen text-white text-sm sm:text-base lg:text-lg p-3 sm:p-6 md:flex md:justify-between md:items-center">
       <div className="w-full flex justify-between items-center">
         <div className="flex">
           <Link className="" href="/">

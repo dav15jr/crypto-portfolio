@@ -91,8 +91,9 @@ export default function CryptoForm({
   }
 
   function selectCoin(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.name === 'name') {
+    if (e.target.name === 'coin') {
       setCoinSelected(e.target.value);
+      console.log('Coin selected:', e.target.value);
       //Find the coin object by its name
       const selectedCoin = coinList.find(
         (coin) => coin.name === e.target.value
@@ -110,6 +111,7 @@ export default function CryptoForm({
   }
 
   function selectCurrency(e: React.ChangeEvent<HTMLSelectElement>) {
+    console.log('Currency:', e.target.value);
     if (e.target.value === 'usd') {
       setCoinCurrency({ name: 'usd', symbol: '$' });
     } else if (e.target.value === 'gbp') {
@@ -145,60 +147,78 @@ export default function CryptoForm({
   return (
     <main>
       <h2 className="flex justify-center text-2xl p-2">Select Your Coin</h2>
-      <form onSubmit={getCoinInfo} className="dark:text-black flex flex-col sm:flex-row p-2 max-w-[400px] sm:max-w-[900px] mx-auto" >
-      <div className="mb-2">
-      <label htmlFor="coin" className='block pl-3 text-sm text-gray-700 font-semibold'>Coin:</label>
-        <input
-          type="text"
-          name="coin"
-          id="coin"
-          placeholder="Select your Coin"
-          list="coinlist"
-          value={coinSelected}
-          onChange={selectCoin}
-          className="border border-purple-900 rounded-xl p-2 m-1 w-full sm:w-auto"
-          required
-        />
-        </div>
+      <form
+        onSubmit={getCoinInfo}
+        className="dark:text-black flex flex-col sm:flex-row p-2 max-w-[400px] sm:max-w-[900px] mx-auto"
+      >
+        <div className="mb-2">
+          <label
+            htmlFor="coin"
+            className="block pl-3 text-sm text-gray-700 font-semibold"
+          >
+            Coin:
+          </label>
+          <input
+            type="text"
+            name="coin"
+            id="coin"
+            placeholder="Select your Coin"
+            list="coinlist"
+            value={coinSelected}
+            onChange={selectCoin}
+            className="border border-purple-900 rounded-xl p-2 m-1 w-full sm:w-auto"
+            required
+          />
         <datalist id="coinlist">
           {coinList.map((coin, index) => (
             <option key={index} value={coin.name} />
           ))}
         </datalist>
+        </div>
         <div className="mb-2">
-        <label htmlFor="date" className='block pl-3 text-sm text-gray-700 font-semibold'>Date:</label>
-        <input
-          type="date"
-          name="date"
-          id="date"
-          placeholder="Date"
-          max={maxDate}
-          min={minDate}
-          value={formDate}
-          onChange={selectCoin}
-          className="border border-purple-900 rounded-xl p-2 sm:p-[5px] m-1 w-full sm:w-auto"
-          required
+          <label
+            htmlFor="date"
+            className="block pl-3 text-sm text-gray-700 font-semibold"
+          >
+            Date:
+          </label>
+          <input
+            type="date"
+            name="date"
+            id="date"
+            placeholder="Date"
+            max={maxDate}
+            min={minDate}
+            value={formDate}
+            onChange={selectCoin}
+            className="border border-purple-900 rounded-xl p-2 sm:p-[5px] m-1 w-full sm:w-auto"
+            required
           />
         </div>
         <div className="mb-2">
-        <label htmlFor="coincurrency" className='block pl-3 text-sm text-gray-700 font-semibold'>Currency:</label>
-        <select
-          name="coincurrency"
-          id="coincurrency"
-          onChange={selectCurrency}
-          className="border border-purple-900 rounded-xl p-2 m-1 w-full sm:w-auto"
-          required
-        >
-          <option value="">Currency</option>
-          <option value="usd">$ USD</option>
-          <option value="gbp">£ GBP</option>
-          <option value="eur">€ EUR</option>
-        </select> 
+          <label
+            htmlFor="coincurrency"
+            className="block pl-3 text-sm text-gray-700 font-semibold"
+          >
+            Currency:
+          </label>
+          <select
+            name="coincurrency"
+            id="coincurrency"
+            onChange={selectCurrency}
+            className="border border-purple-900 rounded-xl p-2 m-1 w-full sm:w-auto"
+            required
+          >
+            <option value="">Currency</option>
+            <option value="usd">$ USD</option>
+            <option value="gbp">£ GBP</option>
+            <option value="eur">€ EUR</option>
+          </select>
         </div>
         <button
           className="h-10 border border-purple-900 text-white bg-purple-600 rounded-xl hover:bg-purple-400 mx-2 p-2 sm:mt-6"
           type="submit"
-          >
+        >
           Get Coin Price
         </button>
       </form>

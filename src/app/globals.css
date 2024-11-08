@@ -33,5 +33,4 @@ grid-template-columns:  0.5fr 2fr 1fr 1fr 1fr;
 .portfolio-layout {
 display: grid;
 grid-template-columns:  1.5fr 1fr 1fr 1fr 1fr 1fr 1fr;
-padding:10px 15px;
 }

@@ -124,50 +124,71 @@ export default function DcaForm({
 
   return (
     <>
-      <h2 className="flex justify-center text-2xl p-2 mt-4">Select Your Investment Type</h2>
-      <form onSubmit={getDca} title="Investment type" className="dark:text-black flex flex-col sm:flex-row p-2 max-w-[400px] sm:max-w-[900px] mx-auto">
-      <div className="mb-2">
-      <label htmlFor="investmenttype" className='block pl-3 text-sm text-gray-700 font-semibold'>Investment Type:</label>
-        <select
-          name="investmenttype"
-          id="investmenttype"
-          onChange={(e) => setDcaType(e.target.value)}
-          className="border border-purple-900 rounded-xl p-[8px] m-1 w-full sm:w-auto"
-          required
-        >
-          <option value="">Select Type</option>
-          <option value="amount">Fiat Amount ($,€,£)</option>
-          <option value="qty">Coin Quantity</option>
-        </select>
+      <h2 className="flex justify-center text-2xl p-2 mt-4">
+        Select Your Investment Type
+      </h2>
+      <form
+        onSubmit={getDca}
+        title="Investment type"
+        className="dark:text-black flex flex-col sm:flex-row p-2 max-w-[400px] sm:max-w-[900px] mx-auto"
+      >
+        <div className="mb-2">
+          <label
+            htmlFor="investmenttype"
+            className="block pl-3 text-sm text-gray-700 font-semibold"
+          >
+            Investment Type:
+          </label>
+          <select
+            name="investmenttype"
+            id="investmenttype"
+            onChange={(e) => setDcaType(e.target.value)}
+            className="border border-purple-900 rounded-xl p-[8px] m-1 w-full sm:w-auto"
+            required
+          >
+            <option value="">Select Type</option>
+            <option value="amount">Fiat Amount ($,€,£)</option>
+            <option value="qty">Coin Quantity</option>
+          </select>
         </div>
         <>
           {dcaType === 'amount' ? (
-                  <div className="mb-2">
-      <label htmlFor="amount" className='block pl-3 text-sm text-gray-700 font-semibold'>Amount ($,€,£):</label>
-            <input
-              type="number"
-              name="amount"
-              id="amount"
-              placeholder="Investment amount"
-              value={invAmount}
-              onChange={handleDca}
-              className="border border-purple-900 rounded-xl p-2 m-1 w-full sm:w-auto"
-              required
-            />
+            <div className="mb-2">
+              <label
+                htmlFor="amount"
+                className="block pl-3 text-sm text-gray-700 font-semibold"
+              >
+                Amount ($,€,£):
+              </label>
+              <input
+                type="number"
+                name="amount"
+                id="amount"
+                placeholder="Investment amount"
+                value={invAmount}
+                onChange={handleDca}
+                className="border border-purple-900 rounded-xl p-2 m-1 w-full sm:w-auto"
+                required
+              />
             </div>
           ) : (
             <div className="mb-2">
-            <label htmlFor="qty" className='block pl-3 text-sm text-gray-700 font-semibold'>Quantity:</label>
-            <input
-              type="number"
-              name="qty"
-              id="qty"
-              placeholder="Coin quantity"
-              value={coinQty}
-              onChange={handleDca}
-              className="border border-purple-900 rounded-xl p-2 m-1"
-              required
-            />
+              <label
+                htmlFor="qty"
+                className="block pl-3 text-sm text-gray-700 font-semibold"
+              >
+                Quantity:
+              </label>
+              <input
+                type="number"
+                name="qty"
+                id="qty"
+                placeholder="Coin quantity"
+                value={coinQty}
+                onChange={handleDca}
+                className="border border-purple-900 rounded-xl p-2 m-1"
+                required
+              />
             </div>
           )}
         </>

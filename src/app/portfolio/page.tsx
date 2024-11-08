@@ -37,7 +37,7 @@ export default function Portfolio() {
 
 
   return ( 
-    <main className="flex flex-col items-center justify-center dark:bg-gray-900 dark:text-white">
+    <main className="flex flex-col items-center min-w-screen justify-center dark:bg-gray-900 dark:text-white px-3">
       <h1 className="text-3xl md:text-5xl p-4 font-bold">MY PORTFOLIO</h1>
       <div className=" border-purple-600 p-3 shadow-purple-300 shadow-md rounded-xl bg-slate-100 dark:bg-gray-800">
       <CryptoForm 
@@ -56,7 +56,7 @@ export default function Portfolio() {
         setShowDcaForm = {setShowDcaForm}
 
         />
-      {!showDcaForm &&
+      {showDcaForm &&
         <DcaForm 
           coinInfo = {coinInfo} 
           coinPrice = {coinPrice} 
@@ -73,24 +73,24 @@ export default function Portfolio() {
         
         />
       }
-    <div className="border border-neutral-500 rounded-lg my-5 min-w-[450px] overflow-x-auto">
-      <table className="table-auto text-left w-full">
-        <thead className="bg-purple-500 text-zinc-100 ">
-          <tr className=''>
-            <th className="border border-neutral-400" >Coin</th>
-            <th className="border border-neutral-400" >Date</th>
-            <th className="border border-neutral-400" >Price</th>
-            <th className="border border-neutral-400" >Quantity</th>
-            <th className="border border-neutral-400" >Amount ({coinCurrency.symbol}) </th>
+    <div className="border border-neutral-500 rounded-lg my-5 min-w-[350px] overflow-x-auto">
+      <table className="table-auto text-left w-full text-sm md:text-base">
+        <thead className="bg-purple-500 text-zinc-100">
+          <tr className='text-center sm:text-left'>
+            <th className="border border-neutral-400 p-1" >Coin</th>
+            <th className="border border-neutral-400 p-1 " >Date</th>
+            <th className="border border-neutral-400 p-1 " >Price</th>
+            <th className="border border-neutral-400 p-1 " >Quantity</th>
+            <th className="border border-neutral-400 p-1 " >Amount ({coinCurrency.symbol}) </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td className="border border-neutral-400">{coinInfo.name} ({coinInfo.symbol})</td>
-            <td className="border border-neutral-400">{`${coinDate}`}</td>
-            <td className="border border-neutral-400">{`${coinCurrency.symbol} ${coinPrice}`}</td>
-            <td className="border border-neutral-400">{`${coinQty} ${coinInfo.symbol}`}</td>
-            <td className="border border-neutral-400">{`${coinCurrency.symbol} ${invAmount}`}</td>
+            <td className="border border-neutral-400 p-1">{coinInfo.name} ({coinInfo.symbol})</td>
+            <td className="border border-neutral-400 p-1">{`${coinDate}`}</td>
+            <td className="border border-neutral-400 p-1">{`${coinCurrency.symbol} ${coinPrice}`}</td>
+            <td className="border border-neutral-400 p-1">{`${coinQty} ${coinInfo.symbol}`}</td>
+            <td className="border border-neutral-400 p-1">{`${coinCurrency.symbol} ${invAmount}`}</td>
           </tr>
         </tbody>
       </table>
