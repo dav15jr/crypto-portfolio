@@ -5,9 +5,9 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react';
-import axios from 'axios';
 import { useCryptoContext } from '../Context/context';
 import { CoinInfo, Currency } from '../types';
+import { fetchCurrentData, fetchHistoricData } from '../utils/api';
 
 type CryptoFormProps = {
   coinInfo: CoinInfo;
@@ -74,12 +74,10 @@ export default function CryptoForm({
   async function getCoinInfo(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (coinName !== 'Coin not found') {
-      const historicData = await axios.get(
-        `https://api.coingecko.com/api/v3/coins/${coinName}/history?date=${coinDate}}`
-      );
-      const currentData = await axios.get(
-        `https://api.coingecko.com/api/v3/simple/price?ids=${coinName}&vs_currencies=${coinCurrency.name}`
-      );
+
+      const historicData = await fetchHistoricData(coinName, coinDate);
+      const currentData = await fetchCurrentData(coinName, coinCurrency.name);
+
       setCoinInfo(historicData.data);
       setPriceNow(currentData.data[coinName][coinCurrency.name]);
       selectPrice();

@@ -41,10 +41,10 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="bg-purple-700 w-screen text-white text-sm sm:text-base lg:text-lg p-3 sm:p-6 md:flex md:justify-between md:items-center">
+    <nav className="sticky top-0 left-0 bg-purple-700 w-screen text-white text-sm sm:text-base lg:text-lg p-3 sm:p-6 md:flex md:justify-between md:items-center min-w-[300px]">
       <div className="w-full flex justify-between items-center">
         <div className="flex">
-          <Link className="" href="/">
+          <Link className="px-2" href="/">
             <Image
               className=""
               src="/icon.png"
@@ -91,7 +91,7 @@ export default function Navbar() {
               Rewards Hub
             </Link>
             <Link
-              className="no-underline hover:underline hover:text-green-400"
+              className="no-underline hover:underline hover:text-yellow-400"
               href="/portfolio"
             >
               Portfolio
@@ -183,7 +183,7 @@ export default function Navbar() {
           <button
             className={`${
               menuOpen ? 'flex' : 'hidden'
-            } bg-green-600 px-2 sm:px-3 items-center rounded-2xl sm:flex`}
+            } bg-green-600 px-2 sm:px-3 items-center rounded-2xl sm:flex hover:text-gray-200 hover:bg-green-700`}
           >
             Sign Up
           </button>

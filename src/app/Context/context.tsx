@@ -1,8 +1,8 @@
 'use client'
 
-import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { Currency, Coin, Context, Ledger } from "../types";
+import { fetchCoinList } from "../utils/api";
 
 const CryptoContext = createContext<Context | null>(null)
 
@@ -18,11 +18,10 @@ export default function CryptoListProvider({ children, } : {children : React.Rea
 
 
     async function getCoinsList(currency: Currency) {
-      // const response = await axios.get(`https://api.coingecko.com/api/v3/coins/list`)
-      const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency.name}`)
-      
-      setCoinList(response.data)
-      setCoinTable(response.data)
+      const coinList = await fetchCoinList(currency.name);
+
+      setCoinList(coinList.data)
+      setCoinTable(coinList.data)
       }
     
     useEffect(() => {

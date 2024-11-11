@@ -3,7 +3,6 @@
 import { useState } from "react";
 import CryptoForm from "../Components/CryptoForm";
 import { CoinInfo, Currency} from "../types";
-
 import DcaForm from "../Components/DcaForm";
 import PortfolioTable from "../Components/PortfolioTable";
 import DcaTable from "../Components/DcaTable";
@@ -35,7 +34,6 @@ export default function Portfolio() {
   const [coinCurrency, setCoinCurrency] = useState<Currency>({name:'usd', symbol:'$'})
   const [showDcaForm, setShowDcaForm] = useState<boolean>(false)
 
-
   return ( 
     <main className="flex flex-col items-center min-w-screen justify-center dark:bg-gray-900 dark:text-white px-3">
       <h1 className="text-3xl md:text-5xl p-4 font-bold">MY PORTFOLIO</h1>
@@ -54,7 +52,6 @@ export default function Portfolio() {
         setCoinCurrency = {setCoinCurrency}
         setCoinPrice = {setCoinPrice}
         setShowDcaForm = {setShowDcaForm}
-
         />
       {showDcaForm &&
         <DcaForm 
@@ -70,18 +67,17 @@ export default function Portfolio() {
           priceNow = {priceNow}
           coinCurrency = {coinCurrency}
           setShowDcaForm = {setShowDcaForm}
-        
         />
       }
-    <div className="border border-neutral-500 rounded-lg my-5 min-w-[350px] overflow-x-auto">
+    <div className="border border-neutral-500 rounded-lg my-5 min-w-[300px] overflow-x-auto">
       <table className="table-auto text-left w-full text-sm md:text-base">
         <thead className="bg-purple-500 text-zinc-100">
           <tr className='text-center sm:text-left'>
             <th className="border border-neutral-400 p-1" >Coin</th>
-            <th className="border border-neutral-400 p-1 " >Date</th>
-            <th className="border border-neutral-400 p-1 " >Price</th>
-            <th className="border border-neutral-400 p-1 " >Quantity</th>
-            <th className="border border-neutral-400 p-1 " >Amount ({coinCurrency.symbol}) </th>
+            <th className="border border-neutral-400 p-1" >Date</th>
+            <th className="border border-neutral-400 p-1" >Price</th>
+            <th className="border border-neutral-400 p-1" >Quantity</th>
+            <th className="border border-neutral-400 p-1" >Amount ({coinCurrency.symbol}) </th>
           </tr>
         </thead>
         <tbody>
@@ -96,10 +92,8 @@ export default function Portfolio() {
       </table>
     </div> 
     </div> 
-
-
-      <PortfolioTable />
-      <DcaTable />
+    <PortfolioTable />
+    <DcaTable />
     </main>
   )
 }
