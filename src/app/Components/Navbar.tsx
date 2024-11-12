@@ -56,37 +56,37 @@ export default function Navbar() {
           <div className="container hidden lg:flex justify-between items-center gap-4">
             <Link
               className="no-underline hover:underline hover:text-green-400"
-              href=""
+              href="/"
             >
               Buy Crypto
             </Link>
             <Link
               className="no-underline hover:underline hover:text-green-400"
-              href=""
+              href="/"
             >
               Markets
             </Link>
             <Link
               className="no-underline hover:underline hover:text-green-400"
-              href=""
+              href="/"
             >
               Spot
             </Link>
             <Link
               className="no-underline hover:underline hover:text-green-400"
-              href=""
+              href="/"
             >
               Derivatives🔥
             </Link>
             <Link
               className="no-underline hover:underline hover:text-green-400"
-              href=""
+              href="/"
             >
               Copy Trading
             </Link>
             <Link
               className="no-underline hover:underline hover:text-green-400"
-              href=""
+              href="/"
             >
               Rewards Hub
             </Link>
@@ -98,7 +98,7 @@ export default function Navbar() {
             </Link>
             <Link
               className="no-underline hover:underline hover:text-green-400"
-              href=""
+              href="/"
             >
               More
             </Link>
@@ -118,37 +118,37 @@ export default function Navbar() {
           >
             <Link
               className="no-underline hover:underline hover:text-green-400"
-              href=""
+              href="/"
             >
               Buy Crypto
             </Link>
             <Link
               className="no-underline hover:underline hover:text-green-400"
-              href=""
+              href="/"
             >
               Markets
             </Link>
             <Link
               className="no-underline hover:underline hover:text-green-400"
-              href=""
+              href="/"
             >
               Spot
             </Link>
             <Link
               className="no-underline hover:underline hover:text-green-400"
-              href=""
+              href="/"
             >
               Derivatives🔥
             </Link>
             <Link
               className="no-underline hover:underline hover:text-green-400"
-              href=""
+              href="/"
             >
               Copy Trading
             </Link>
             <Link
               className="no-underline hover:underline hover:text-green-400"
-              href=""
+              href="/"
             >
               Rewards Hub
             </Link>
@@ -160,7 +160,7 @@ export default function Navbar() {
             </Link>
             <Link
               className="no-underline hover:underline hover:text-green-400"
-              href=""
+              href="/"
             >
               More
             </Link>

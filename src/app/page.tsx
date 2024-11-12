@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useCryptoContext } from './Context/context';
 import InfoSection from './Components/InfoSection';
 import HeroSection from './Components/HeroSection';
+import Link from 'next/link';
 
 export default function Home() {
   const [coinSearch, setCoinSearch] = useState<string>('');
@@ -104,6 +105,12 @@ export default function Home() {
             </div>
           ))}
         </div>
+        <Link
+              className="border bg-purple-500 rounded-full text-white hover:bg-purple-700 hover:border-green-500 text-sm sm:text-lg mt-6 p-1 px-3 transition active:scale-90"
+              href="/portfolio"
+            >
+             Update your Portfolio
+        </Link>
         <InfoSection />
       </main>
     </div>
