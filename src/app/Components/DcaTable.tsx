@@ -37,7 +37,7 @@ export default function DcaTable() {
             <p className="px-2 sm:px-5">{coin.currency.symbol}{coin.investedAmount}</p>
             <p className="px-2 sm:px-5">{coin.quantity} {coin.symbol}</p>
             <p className="px-2 sm:px-5">{coin.currency.symbol}{coin.currentPrice}</p>
-            <p className="px-2 sm:px-5">{coin.currency.symbol}{(coin.currentValue.toFixed(2))}</p>
+            <p className="px-2 sm:px-5">{coin.currency.symbol}{(coin.currentValue).toFixed(2)}</p>
             <button className="justify-end button font-bold border bg-white border-red-300 dark:text-black dark:border-red-600 hover:bg-red-500  dark:hover:bg-red-500 rounded-xl py-1 text-xs sm:text-base" onClick={() => deleteCoin(coin.name, coin.currency.name)} >Remove</button>
             </div>
         ))}

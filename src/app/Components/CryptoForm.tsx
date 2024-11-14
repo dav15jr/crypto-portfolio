@@ -15,6 +15,8 @@ type CryptoFormProps = {
   setCoinName: Dispatch<SetStateAction<string>>;
   coinDate: string;
   setCoinDate: Dispatch<SetStateAction<string>>;
+  coinSelected: string;
+  setCoinSelected: Dispatch<SetStateAction<string>>;
   formDate: string;
   setFormDate: Dispatch<SetStateAction<string>>;
   setCoinInfo: Dispatch<SetStateAction<CoinInfo>>;
@@ -31,6 +33,8 @@ export default function CryptoForm({
   setCoinName,
   coinDate,
   setCoinDate,
+  coinSelected,
+  setCoinSelected,
   formDate,
   setFormDate,
   setCoinInfo,
@@ -42,7 +46,6 @@ export default function CryptoForm({
 }: CryptoFormProps) {
   const [maxDate, setMaxDate] = useState('');
   const [minDate, setMinDate] = useState('');
-  const [coinSelected, setCoinSelected] = useState('');
   const { coinList } = useCryptoContext();
 
   const usdPrice = coinInfo.market_data.current_price.usd;
@@ -86,8 +89,14 @@ export default function CryptoForm({
       alert('Coin not found');
       setCoinSelected('');
     }
+   resetForm()
   }
-
+  function resetForm() {  // reset form inputs
+    const formDCA = document.getElementById("cryptoform") as HTMLFormElement
+    if (formDCA) {
+      formDCA.reset();
+    }
+}
   function selectCoin(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.name === 'coin') {
       setCoinSelected(e.target.value);
@@ -109,7 +118,6 @@ export default function CryptoForm({
   }
 
   function selectCurrency(e: React.ChangeEvent<HTMLSelectElement>) {
-    console.log('Currency:', e.target.value);
     if (e.target.value === 'usd') {
       setCoinCurrency({ name: 'usd', symbol: '$' });
     } else if (e.target.value === 'gbp') {
@@ -146,13 +154,14 @@ export default function CryptoForm({
     <main>
       <h2 className="flex justify-center text-2xl p-2">Select Your Coin</h2>
       <form
+      id='cryptoform'
         onSubmit={getCoinInfo}
         className="dark:text-black flex flex-col sm:flex-row p-2 max-w-[400px] sm:max-w-[900px] mx-auto"
       >
         <div className="mb-2">
           <label
             htmlFor="coin"
-            className="block pl-3 text-sm text-gray-700 font-semibold"
+            className="block pl-3 text-sm text-gray-700 font-semibold  dark:text-gray-300"
           >
             Coin:
           </label>
@@ -176,7 +185,7 @@ export default function CryptoForm({
         <div className="mb-2">
           <label
             htmlFor="date"
-            className="block pl-3 text-sm text-gray-700 font-semibold"
+            className="block pl-3 text-sm text-gray-700 font-semibold dark:text-gray-300"
           >
             Date:
           </label>
@@ -196,7 +205,7 @@ export default function CryptoForm({
         <div className="mb-2">
           <label
             htmlFor="coincurrency"
-            className="block pl-3 text-sm text-gray-700 font-semibold"
+            className="block pl-3 text-sm text-gray-700 font-semibold dark:text-gray-300"
           >
             Currency:
           </label>

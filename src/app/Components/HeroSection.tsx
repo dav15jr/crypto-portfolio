@@ -19,7 +19,7 @@ export default function HeroSection() {
           <input
             type="text"
             placeholder="Enter Phone Number/Email"
-            className="border border-zinc-400 rounded-3xl sm:rounded-md p-2 sm:p-3 my-3 sm:mr-3 sm:text-xl sm:w-[65%] w-full hover:border-purple-500 hover:border-2 transition duration-700 ease-in-out"
+            className="border border-zinc-400 dark:text-black rounded-3xl sm:rounded-md p-2 sm:p-3 my-3 sm:mr-3 sm:text-xl sm:w-[65%] w-full hover:border-purple-500 hover:border-2 transition duration-700 ease-in-out"
           />
           <button className="text-white md:text-xl bg-purple-500 hover:bg-purple-800 border py-2 sm:p-3 rounded-3xl w-full sm:w-[7rem] transition active:scale-90 active:text-green-300">
             Sign Up

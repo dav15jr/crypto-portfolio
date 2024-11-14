@@ -10,9 +10,11 @@ type DcaFormProps = {
   setCoinDate: Dispatch<SetStateAction<string>>;
   invAmount: string;
   setFormDate: Dispatch<SetStateAction<string>>;
-  priceNow: number; // assuming price now is a number
+  setCoinSelected: Dispatch<SetStateAction<string>>;
+  priceNow: number; 
   coinCurrency: Currency;
-  setInvAmount: Dispatch<SetStateAction<string>>; // if this is a number
+  setCoinCurrency: Dispatch<SetStateAction<Currency>>;
+  setInvAmount: Dispatch<SetStateAction<string>>;
   setCoinQty: Dispatch<SetStateAction<string>>;
   setShowDcaForm: Dispatch<SetStateAction<boolean>>;
 };
@@ -25,8 +27,10 @@ export default function DcaForm({
   setCoinDate,
   invAmount,
   setFormDate,
+  setCoinSelected,
   priceNow,
   coinCurrency,
+  setCoinCurrency,
   setInvAmount,
   setCoinQty,
   setShowDcaForm,
@@ -57,11 +61,6 @@ export default function DcaForm({
   function getDca(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setShowDcaForm(false);
-    setCoinDate('');
-    setCoinName('');
-    setInvAmount('');
-    setCoinQty('');
-    setFormDate('');
 
     const dcaValue = Number(priceNow) * Number(coinQty);
 
@@ -69,18 +68,9 @@ export default function DcaForm({
       const updatedPortfolio = prev.map((item) => {
         // Check if the symbol & currency already exists in the portfolio
         if (item.symbol === coinInfo.symbol && item.currency === coinCurrency) {
-          const totalInvested = (
-            Number(item.investedAmount) + Number(invAmount)
-          )
-            .toFixed(2)
-            .toString();
+          const totalInvested = (Number(item.investedAmount) + Number(invAmount)).toFixed(2).toString();
           const totalQty = (Number(item.quantity) + Number(coinQty)).toString();
-          const avgPrice = (
-            (Number(invAmount) + Number(item.investedAmount)) /
-            Number(totalQty)
-          )
-            .toFixed(2)
-            .toString();
+          const avgPrice = ((Number(invAmount) + Number(item.investedAmount)) /Number(totalQty)).toFixed(2).toString();
           const newValue = Number(priceNow) * Number(totalQty);
 
           // Update the existing entry
@@ -120,6 +110,14 @@ export default function DcaForm({
       }
       return updatedPortfolio;
     });
+    setCoinDate('');
+    setCoinName('');
+    setInvAmount('');
+    setCoinQty('');
+    setFormDate('');
+    setCoinSelected('');
+    setFormDate('');
+    setCoinCurrency({ name:'', symbol:'' });
   }
 
   return (
@@ -135,7 +133,7 @@ export default function DcaForm({
         <div className="mb-2">
           <label
             htmlFor="investmenttype"
-            className="block pl-3 text-sm text-gray-700 font-semibold"
+            className="block pl-3 text-sm text-gray-700 font-semibold  dark:text-gray-300"
           >
             Investment Type:
           </label>
@@ -156,7 +154,7 @@ export default function DcaForm({
             <div className="mb-2">
               <label
                 htmlFor="amount"
-                className="block pl-3 text-sm text-gray-700 font-semibold"
+                className="block pl-3 text-sm text-gray-700 font-semibold  dark:text-gray-300"
               >
                 Amount ($,€,£):
               </label>
@@ -175,7 +173,7 @@ export default function DcaForm({
             <div className="mb-2">
               <label
                 htmlFor="qty"
-                className="block pl-3 text-sm text-gray-700 font-semibold"
+                className="block pl-3 text-sm text-gray-700 font-semibold  dark:text-gray-300"
               >
                 Quantity:
               </label>
@@ -196,7 +194,7 @@ export default function DcaForm({
           className="h-11 border border-purple-900 text-white bg-purple-600 rounded-xl hover:bg-purple-400 mx-2 p-2 sm:mt-6"
           type="submit"
         >
-          Add Coin DCA
+          Add DCA Coin
         </button>
       </form>
     </>

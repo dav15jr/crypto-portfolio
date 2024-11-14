@@ -26,16 +26,17 @@ export default function Portfolio() {
   const [coinInfo, setCoinInfo] = useState<CoinInfo>(defaultCoinInfo)
   const [coinDate, setCoinDate] = useState<string>('')
   const [formDate, setFormDate] = useState<string>('')
+  const [coinSelected, setCoinSelected] = useState('');
   const [coinName, setCoinName] = useState<string>('')
   const [invAmount, setInvAmount] = useState<string>('')
   const [coinQty, setCoinQty] = useState<string>('')
   const [priceNow, setPriceNow] = useState(0)
   const [coinPrice, setCoinPrice] = useState<string>('0')
-  const [coinCurrency, setCoinCurrency] = useState<Currency>({name:'usd', symbol:'$'})
+  const [coinCurrency, setCoinCurrency] = useState<Currency>({name:'', symbol:''})
   const [showDcaForm, setShowDcaForm] = useState<boolean>(false)
 
   return ( 
-    <main className="flex flex-col items-center min-w-screen justify-center dark:bg-gray-900 dark:text-white px-3">
+    <main className="flex flex-col items-center min-w-screen justify-center text-black dark:bg-gray-900 dark:text-white px-3">
       <h1 className="text-3xl md:text-5xl p-4 font-bold">MY PORTFOLIO</h1>
       <div className=" border-purple-600 p-3 shadow-purple-300 shadow-md rounded-xl bg-slate-100 dark:bg-gray-800">
       <CryptoForm 
@@ -46,6 +47,8 @@ export default function Portfolio() {
         setCoinDate = {setCoinDate} 
         formDate = {formDate} 
         setFormDate = {setFormDate}
+        coinSelected = {coinSelected}
+        setCoinSelected = {setCoinSelected}
         setCoinInfo = {setCoinInfo}
         setPriceNow = {setPriceNow}
         coinCurrency = {coinCurrency}
@@ -64,8 +67,10 @@ export default function Portfolio() {
           invAmount = {invAmount} 
           setInvAmount = {setInvAmount}
           setFormDate = {setFormDate}
+          setCoinSelected = {setCoinSelected}
           priceNow = {priceNow}
           coinCurrency = {coinCurrency}
+          setCoinCurrency = {setCoinCurrency}
           setShowDcaForm = {setShowDcaForm}
         />
       }

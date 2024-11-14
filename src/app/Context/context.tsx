@@ -23,9 +23,7 @@ export default function CryptoListProvider({ children, } : {children : React.Rea
     const [coinList, setCoinList] = useState<Coin[]>([])
     const [coinTable, setCoinTable] = useState<Coin[]>([])
     const [currency, setCurrency] = useState<Currency>({name:'usd', symbol:'$'})
-    
     const [portfolio, setPortfolio] = useState<Ledger[]>(getPortfolioFromLocalStorage())
-
 
     async function getCoinsList(currency: Currency) {
       const coinList = await fetchCoinList(currency.name);

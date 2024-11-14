@@ -42,7 +42,7 @@ export default function Home() {
             list="coinlist"
             onChange={handleInput}
             value={coinSearch}
-            className="bg-purple-100 border border-purple-700 rounded-lg p-2 hover:border-purple-500 hover:border-2 transition duration-700 ease-in-out"
+            className="bg-purple-100 border dark:text-black border-purple-700 rounded-lg p-2 hover:border-purple-500 hover:border-2 transition duration-700 ease-in-out"
             required
           />
           <datalist id="coinlist">
