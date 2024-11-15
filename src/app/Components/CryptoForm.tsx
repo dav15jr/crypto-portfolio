@@ -1,3 +1,4 @@
+'use client'
 import {
   useState,
   useEffect,
@@ -77,9 +78,8 @@ export default function CryptoForm({
   async function getCoinInfo(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (coinName !== 'Coin not found') {
-
-      const historicData = await fetchHistoricData(coinName, coinDate);
-      const currentData = await fetchCurrentData(coinName, coinCurrency.name);
+      const historicData = await fetchHistoricData(coinName, coinDate); // fetch historical data from api endpoint
+      const currentData = await fetchCurrentData(coinName, coinCurrency.name); // fetch current data from api endpoint
 
       setCoinInfo(historicData.data);
       setPriceNow(currentData.data[coinName][coinCurrency.name]);
@@ -89,18 +89,18 @@ export default function CryptoForm({
       alert('Coin not found');
       setCoinSelected('');
     }
-   resetForm()
+    resetForm();
   }
-  function resetForm() {  // reset form inputs
-    const formDCA = document.getElementById("cryptoform") as HTMLFormElement
+  function resetForm() {
+    // reset form inputs
+    const formDCA = document.getElementById('cryptoform') as HTMLFormElement;
     if (formDCA) {
       formDCA.reset();
     }
-}
+  }
   function selectCoin(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.name === 'coin') {
       setCoinSelected(e.target.value);
-      console.log('Coin selected:', e.target.value);
       //Find the coin object by its name
       const selectedCoin = coinList.find(
         (coin) => coin.name === e.target.value
@@ -154,7 +154,7 @@ export default function CryptoForm({
     <main>
       <h2 className="flex justify-center text-2xl p-2">Select Your Coin</h2>
       <form
-      id='cryptoform'
+        id="cryptoform"
         onSubmit={getCoinInfo}
         className="dark:text-black flex flex-col sm:flex-row p-2 max-w-[400px] sm:max-w-[900px] mx-auto"
       >
@@ -176,11 +176,11 @@ export default function CryptoForm({
             className="border border-purple-900 rounded-xl p-2 m-1 w-full sm:w-auto"
             required
           />
-        <datalist id="coinlist">
-          {coinList.map((coin, index) => (
-            <option key={index} value={coin.name} />
-          ))}
-        </datalist>
+          <datalist id="coinlist">
+            {coinList.map((coin, index) => (
+              <option key={index} value={coin.name} />
+            ))}
+          </datalist>
         </div>
         <div className="mb-2">
           <label

@@ -1,3 +1,4 @@
+'use client'
 import { useState, Dispatch, SetStateAction } from 'react';
 import { CoinInfo, Currency, Ledger } from '../types';
 import { useCryptoContext } from '../Context/context';
@@ -11,7 +12,7 @@ type DcaFormProps = {
   invAmount: string;
   setFormDate: Dispatch<SetStateAction<string>>;
   setCoinSelected: Dispatch<SetStateAction<string>>;
-  priceNow: number; 
+  priceNow: number;
   coinCurrency: Currency;
   setCoinCurrency: Dispatch<SetStateAction<Currency>>;
   setInvAmount: Dispatch<SetStateAction<string>>;
@@ -55,7 +56,6 @@ export default function DcaForm({
 
       setCoinQty(quantity);
       setInvAmount(invAmount);
-      console.log('Investment Amount =', invAmount);
     }
   }
   function getDca(e: React.FormEvent<HTMLFormElement>) {
@@ -66,11 +66,23 @@ export default function DcaForm({
 
     setPortfolio((prev: Ledger[]) => {
       const updatedPortfolio = prev.map((item) => {
-        // Check if the symbol & currency already exists in the portfolio
-        if (item.symbol === coinInfo.symbol && item.currency === coinCurrency) {
-          const totalInvested = (Number(item.investedAmount) + Number(invAmount)).toFixed(2).toString();
+        // Check if the coin symbol (btc) & currency(usd) already exists in the portfolio, if so merge and Update stored entry
+        if (
+          item.symbol === coinInfo.symbol &&
+          item.currency.name === coinCurrency.name
+        ) {
+          const totalInvested = (
+            Number(item.investedAmount) + Number(invAmount)
+          )
+            .toFixed(2)
+            .toString();
           const totalQty = (Number(item.quantity) + Number(coinQty)).toString();
-          const avgPrice = ((Number(invAmount) + Number(item.investedAmount)) /Number(totalQty)).toFixed(2).toString();
+          const avgPrice = (
+            (Number(invAmount) + Number(item.investedAmount)) /
+            Number(totalQty)
+          )
+            .toFixed(2)
+            .toString();
           const newValue = Number(priceNow) * Number(totalQty);
 
           // Update the existing entry
@@ -86,10 +98,11 @@ export default function DcaForm({
           return item;
         }
       });
-      // If the symbol & currency wasn't found in the previous array, add a new entry
+      // If the coin symbol (btc) & currency(usd) wasn't found in the previous array, add a new entry
       const isCoinInPortfolio = prev.some(
         (item) =>
-          item.symbol === coinInfo.symbol && item.currency === coinCurrency
+          item.symbol === coinInfo.symbol &&
+          item.currency.name === coinCurrency.name
       );
 
       if (!isCoinInPortfolio) {
@@ -117,7 +130,7 @@ export default function DcaForm({
     setFormDate('');
     setCoinSelected('');
     setFormDate('');
-    setCoinCurrency({ name:'', symbol:'' });
+    setCoinCurrency({ name: '', symbol: '' });
   }
 
   return (

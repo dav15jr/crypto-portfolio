@@ -1,24 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useCryptoContext } from '../Context/context';
 
-
-
-
 export default function PortfolioTable() {
-    const [totalUSDInvested, setTotalUSDInvested] = useState<number>(0);
-    const [totalUSDValue, setTotalUSDValue] = useState<number>(0);
-    const [totalUSDPnl, setTotalUSDPnl] = useState<number>(0);
-    const [totalUSDPnlPct, setTotalUSDPnlPct] = useState<number>(0);
-    const [totalGBPInvested, setTotalGBPInvested] = useState<number>(0);
-    const [totalGBPValue, setTotalGBPValue] = useState<number>(0);
-    const [totalGBPPnl, setTotalGBPPnl] = useState<number>(0);
-    const [totalGBPPnlPct, setTotalGBPPnlPct] = useState<number>(0);
-    const [totalEURInvested, setTotalEURInvested] = useState<number>(0);
-    const [totalEURValue, setTotalEURValue] = useState<number>(0);
-    const [totalEURPnl, setTotalEURPnl] = useState<number>(0);
-    const [totalEURPnlPct, setTotalEURPnlPct] = useState<number>(0);
-    const { portfolio } = useCryptoContext()
-    
+  const [totalUSDInvested, setTotalUSDInvested] = useState<number>(0);
+  const [totalUSDValue, setTotalUSDValue] = useState<number>(0);
+  const [totalUSDPnl, setTotalUSDPnl] = useState<number>(0);
+  const [totalUSDPnlPct, setTotalUSDPnlPct] = useState<number>(0);
+  const [totalGBPInvested, setTotalGBPInvested] = useState<number>(0);
+  const [totalGBPValue, setTotalGBPValue] = useState<number>(0);
+  const [totalGBPPnl, setTotalGBPPnl] = useState<number>(0);
+  const [totalGBPPnlPct, setTotalGBPPnlPct] = useState<number>(0);
+  const [totalEURInvested, setTotalEURInvested] = useState<number>(0);
+  const [totalEURValue, setTotalEURValue] = useState<number>(0);
+  const [totalEURPnl, setTotalEURPnl] = useState<number>(0);
+  const [totalEURPnlPct, setTotalEURPnlPct] = useState<number>(0);
+  const { portfolio } = useCryptoContext();
+
   useEffect(() => {
     localStorage.setItem('portfolio', JSON.stringify(portfolio));
 

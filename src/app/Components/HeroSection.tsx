@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
+import heroImage from '../../../public/assets/cryptoHero-01.png'
 
 export default function HeroSection() {
   return (
@@ -26,13 +27,12 @@ export default function HeroSection() {
           </button>
         </div>
       </div>
-      <div className="flex max-w-[550px]">
+      <div className="flex max-w-[550px] justify-center">
         <Image
-          src="/assets/cryptoHero-01.png"
+          src={heroImage}
           alt="Picture of futures championship promotion"
-          width={500}
-          height={500}
-          layout="responsive"
+          className='max-w-[400px] w-[90%] md:w-[550px] md:max-w-full h-auto'
+          placeholder='blur'
         ></Image>
       </div>
     </section>
