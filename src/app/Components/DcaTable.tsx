@@ -22,7 +22,7 @@ export default function DcaTable() {
 
 
   return (
-    <div className="mb-5 max-w-[800px] w-full overflow-x-auto sm:overflow-hidden rounded-xl">
+    <div className="mb-5 max-w-[800px] w-full overflow-x-auto sm:overflow-hidden rounded-xl" aria-label="DCA Table">
       <div className="whitespace-nowrap min-w-[600px] max-w-[800px]">
         <div className="portfolio-layout bg-purple-700 text-white text-sm sm:text-base p-2 sm:p-1">
           <p className="px-1 sm:px-5">Coin</p>
@@ -72,6 +72,7 @@ export default function DcaTable() {
             <button
               className="justify-end button font-bold border bg-white border-red-300 dark:text-black dark:border-red-600 hover:bg-red-500  dark:hover:bg-red-500 rounded-xl py-1 text-xs sm:text-base"
               onClick={() => deleteCoin(coin.name, coin.currency.name)}
+              aria-label="Remove Coin"
             >
               Remove
             </button>

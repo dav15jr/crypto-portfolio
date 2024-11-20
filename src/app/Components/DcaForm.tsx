@@ -142,6 +142,7 @@ export default function DcaForm({
         onSubmit={getDca}
         title="Investment type"
         className="dark:text-black flex flex-col sm:flex-row p-2 max-w-[400px] sm:max-w-[900px] mx-auto"
+        aria-label="crypto coin quantity form"
       >
         <div className="mb-2">
           <label
@@ -206,6 +207,7 @@ export default function DcaForm({
         <button
           className="h-11 border border-purple-900 text-white bg-purple-600 rounded-xl hover:bg-purple-400 mx-2 p-2 sm:mt-6"
           type="submit"
+          aria-label="Add DCA Coin"
         >
           Add DCA Coin
         </button>

@@ -4,7 +4,7 @@ import heroImage from '../../../public/assets/cryptoHero-01.png'
 
 export default function HeroSection() {
   return (
-    <section className="flex flex-col md:flex-row justify-center items-center mx-auto max-w-[1200px] min-w-[350px] py-5 px-2">
+    <section className="flex flex-col md:flex-row justify-center items-center mx-auto max-w-[1200px] min-w-[350px] py-5 px-2" aria-label="Hero section">
       <div className="flex flex-col gap-4 max-w-[550px] px-4">
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight">
           🏆 SuperX Futures Championship
@@ -30,7 +30,7 @@ export default function HeroSection() {
       <div className="flex max-w-[550px] justify-center">
         <Image
           src={heroImage}
-          alt="Picture of futures championship promotion"
+          alt="Picture of crypto futures championship promotion"
           className='max-w-[400px] w-[90%] md:w-[550px] md:max-w-full h-auto'
           placeholder='blur'
         ></Image>

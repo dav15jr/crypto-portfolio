@@ -38,7 +38,7 @@ export default function Portfolio() {
   return ( 
     <main className="flex flex-col items-center min-w-screen justify-center text-black dark:bg-gray-900 dark:text-white px-3">
       <h1 className="text-3xl md:text-5xl p-4 font-bold">MY PORTFOLIO</h1>
-      <div className=" border-purple-600 p-3 shadow-purple-300 shadow-md rounded-xl bg-slate-100 dark:bg-gray-800">
+      <section className=" border-purple-600 p-3 shadow-purple-300 shadow-md rounded-xl bg-slate-100 dark:bg-gray-800" aria-label="portfolio input forms">
       <CryptoForm 
         coinInfo = {coinInfo} 
         coinName = {coinName} 
@@ -75,7 +75,7 @@ export default function Portfolio() {
         />
       }
     <div className="border border-neutral-500 rounded-lg my-5 min-w-[300px] overflow-x-auto">
-      <table className="table-auto text-left w-full text-sm md:text-base">
+      <table className="table-auto text-left w-full text-sm md:text-base" aria-label="coin search table">
         <thead className="bg-purple-500 text-zinc-100">
           <tr className='text-center sm:text-left'>
             <th className="border border-neutral-400 p-1" >Coin</th>
@@ -96,7 +96,7 @@ export default function Portfolio() {
         </tbody>
       </table>
     </div> 
-    </div> 
+    </section> 
     <PortfolioTable />
     <DcaTable />
     </main>

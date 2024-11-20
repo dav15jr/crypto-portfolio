@@ -151,12 +151,13 @@ export default function CryptoForm({
   }, [selectPrice]);
 
   return (
-    <main>
+    <div>
       <h2 className="flex justify-center text-2xl p-2">Select Your Coin</h2>
       <form
         id="cryptoform"
         onSubmit={getCoinInfo}
         className="dark:text-black flex flex-col sm:flex-row p-2 max-w-[400px] sm:max-w-[900px] mx-auto"
+        aria-label="coin price search form"
       >
         <div className="mb-2">
           <label
@@ -169,11 +170,12 @@ export default function CryptoForm({
             type="text"
             name="coin"
             id="coin"
-            placeholder="Select your Coin"
+            placeholder="Select Coin"
             list="coinlist"
             value={coinSelected}
             onChange={selectCoin}
             className="border border-purple-900 rounded-xl p-2 m-1 w-full sm:w-auto"
+            autoFocus
             required
           />
           <datalist id="coinlist">
@@ -193,7 +195,7 @@ export default function CryptoForm({
             type="date"
             name="date"
             id="date"
-            placeholder="Date"
+            placeholder="Select Date"
             max={maxDate}
             min={minDate}
             value={formDate}
@@ -214,6 +216,7 @@ export default function CryptoForm({
             id="coincurrency"
             onChange={selectCurrency}
             className="border border-purple-900 rounded-xl p-2 m-1 w-full sm:w-auto"
+            aria-label="Select Currency"
             required
           >
             <option value="">Currency</option>
@@ -225,10 +228,11 @@ export default function CryptoForm({
         <button
           className="h-10 border border-purple-900 text-white bg-purple-600 rounded-xl hover:bg-purple-400 mx-2 p-2 sm:mt-6"
           type="submit"
+          aria-label="Get coin price"
         >
           Get Coin Price
         </button>
       </form>
-    </main>
+    </div>
   );
 }
