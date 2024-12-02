@@ -30,7 +30,7 @@ export default function Home() {
     <main className="font-[family-name:var(--font-geist-sans)]  dark:bg-black dark:text-white px-2">
       <div className="flex flex-col w-full min-h-screen items-center justify-center">
         <HeroSection />
-        <h1 className="text-2xl sm:text-4xl">Welcome to CRYPTO KNIGHT</h1>
+        <h1 className="text-2xl sm:text-4xl" data-testid='cyp-title'>Welcome to CRYPTO KNIGHT</h1>
         <p className="text-lg sm:text-xl text-center pt-5">
           {' '}
           Find your coin&#39;s the latest price
@@ -72,6 +72,7 @@ export default function Home() {
             <div
               key={coin.id}
               className="crypto-list items-center text-xs sm:text-sm md:text-base p-2 sm:p-3"
+              data-testid="coin-row"
             >
               <p>{coin.market_cap_rank}</p>
               <div className="flex items-center gap-1 sm:gap-2">
