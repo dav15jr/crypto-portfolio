@@ -45,8 +45,8 @@ export default function CryptoForm({
   setCoinPrice,
   setShowDcaForm,
 }: CryptoFormProps) {
-  const [maxDate, setMaxDate] = useState('');
-  const [minDate, setMinDate] = useState('');
+  const [maxDate, setMaxDate] = useState<string>('');
+  const [minDate, setMinDate] = useState<string>('');
   const { coinList } = useCryptoContext();
 
   const usdPrice = coinInfo.market_data.current_price.usd;
