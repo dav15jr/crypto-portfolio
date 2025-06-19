@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useCryptoContext } from '../Context/context';
+import { useCryptoContext } from '../../Context/context';
 
 export default function PortfolioTable() {
   const [totalUSDInvested, setTotalUSDInvested] = useState<number>(0);

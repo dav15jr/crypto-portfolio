@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import CryptoForm from '../Components/CryptoForm';
+import CryptoForm from '../Components/PortfolioPage/CryptoForm';
 import { CoinInfo, Currency } from '../types';
 import DcaForm from '../Components/PortfolioPage/DcaForm';
-import PortfolioTable from '../Components/PortfolioTable';
+import PortfolioTable from '../Components/PortfolioPage/PortfolioTable';
+import PortfolioChart from '../Components/PortfolioPage/PortfolioChart';
 import DcaTable from '../Components/PortfolioPage/DcaTable';
 
 export default function Portfolio() {
@@ -116,6 +117,7 @@ export default function Portfolio() {
         </div>
       </section>
       <PortfolioTable />
+      {/* <PortfolioChart /> */}
       <DcaTable />
     </main>
   );

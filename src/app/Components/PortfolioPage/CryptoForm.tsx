@@ -6,9 +6,9 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react';
-import { useCryptoContext } from '../Context/context';
-import { CoinInfo, Currency } from '../types';
-import { fetchCurrentData, fetchHistoricData } from '../utils/api';
+import { useCryptoContext } from '../../Context/context';
+import { CoinInfo, Currency } from '../../types';
+import { fetchCurrentData, fetchHistoricData } from '../../utils/api';
 
 type CryptoFormProps = {
   coinInfo: CoinInfo;
