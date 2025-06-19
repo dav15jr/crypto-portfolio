@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { Currency, Coin, Context, Ledger } from '../types';
+import { Currency, Coin, Context, Ledger, PortfolioHistory } from '../types';
 import { fetchCoinList } from '../utils/api';
 
 const CryptoContext = createContext<Context | null>(null);
@@ -10,9 +10,13 @@ function getPortfolioFromLocalStorage() {
   // Checks if window is available meaning that it has loaded on client side, before returing the portfolio in local storage if it exists.
   if (typeof window !== 'undefined') {
     const storedPortfolio = localStorage.getItem('portfolio');
-    return storedPortfolio ? JSON.parse(storedPortfolio) : [];
+    const storedHistory = localStorage.getItem('portfolioHistory');
+    return {
+      portfolio: storedPortfolio ? JSON.parse(storedPortfolio) : [],
+      history: storedHistory ? JSON.parse(storedHistory) : [],
+    };
   }
-  return []; // Return an empty array or default value on the server
+  return { portfolio: [], history: [] }; //Return an empty array or default value on the server
 }
 
 export default function CryptoListProvider({
@@ -26,47 +30,43 @@ export default function CryptoListProvider({
     name: 'usd',
     symbol: '$',
   });
-  const [portfolio, setPortfolio] = useState<Ledger[]>(
-    getPortfolioFromLocalStorage()
-  );
-
-const[loading, setLoading] = useState<boolean>(true); 
-const [error, setError] = useState<boolean>(false);
+  const { portfolio: savedPortfolio, history: savedHistory } =
+    getPortfolioFromLocalStorage();
+  const [portfolio, setPortfolio] = useState<Ledger[]>(savedPortfolio);
+  const [portfolioHistory, setPortfolioHistory] =
+    useState<PortfolioHistory[]>(savedHistory);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
 
   async function getCoinsList(currency: Currency) {
     setLoading(true);
     setError(false);
 
-    try{
-    const coinList = await fetchCoinList(currency.name);
+    try {
+      const coinList = await fetchCoinList(currency.name);
 
-    if (!coinList.data ) {
-      throw new Error('Failed to fetch coin list');
-    } 
-    setCoinList(coinList.data);
-    setCoinTable(coinList.data);
-  
-    } catch(error){
-       setError(true);
+      if (!coinList.data) {
+        throw new Error('Failed to fetch coin list');
+      }
+      setCoinList(coinList.data);
+      setCoinTable(coinList.data);
+    } catch (error) {
+      setError(true);
       console.error('Error fetching coin list:', error);
-    } finally{
+    } finally {
       setLoading(false);
     }
-  
-  
   }
 
   useEffect(() => {
     getCoinsList(currency);
   }, [currency]);
 
-  // Load portfolio from local storage if it exists
+  // Save portfolio and history to localStorage when they change
   useEffect(() => {
-    const storedPortfolio = localStorage.getItem('portfolio');
-    if (storedPortfolio) {
-      setPortfolio(JSON.parse(storedPortfolio));
-    }
-  }, []);
+    localStorage.setItem('portfolio', JSON.stringify(portfolio));
+    localStorage.setItem('portfolioHistory', JSON.stringify(portfolioHistory));
+  }, [portfolio, portfolioHistory]);
 
   return (
     <CryptoContext.Provider
@@ -78,8 +78,10 @@ const [error, setError] = useState<boolean>(false);
         setCoinTable,
         portfolio,
         setPortfolio,
+        portfolioHistory,
+        setPortfolioHistory,
         loading,
-        error
+        error,
       }}
     >
       {children}

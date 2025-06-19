@@ -75,6 +75,7 @@ export default function Portfolio() {
             setCoinName={setCoinName}
             coinQty={coinQty}
             setCoinQty={setCoinQty}
+            formDate={formDate}
             setCoinDate={setCoinDate}
             invAmount={invAmount}
             setInvAmount={setInvAmount}
@@ -117,7 +118,7 @@ export default function Portfolio() {
         </div>
       </section>
       <PortfolioTable />
-      {/* <PortfolioChart /> */}
+      <PortfolioChart />
       <DcaTable />
     </main>
   );

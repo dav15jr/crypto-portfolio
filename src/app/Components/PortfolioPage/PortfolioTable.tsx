@@ -15,6 +15,7 @@ export default function PortfolioTable() {
   const [totalEURPnl, setTotalEURPnl] = useState<number>(0);
   const [totalEURPnlPct, setTotalEURPnlPct] = useState<number>(0);
   const { portfolio } = useCryptoContext();
+  const percentAmount = 100; // Adjust this value to change the percentage calculation
 
   useEffect(() => {
     localStorage.setItem('portfolio', JSON.stringify(portfolio));
@@ -41,7 +42,7 @@ export default function PortfolioTable() {
     // After the loop, update the state
     const usdPnl = totalUSDValue - totalUSDInvested;
     const usdPnlPct =
-      totalUSDInvested !== 0 ? (usdPnl / totalUSDInvested) * 100 : 0; // Profit and Loss % of total USD Invested
+      totalUSDInvested !== 0 ? (usdPnl / totalUSDInvested) * percentAmount : 0; // Profit and Loss % of total USD Invested
     setTotalUSDValue(totalUSDValue);
     setTotalUSDInvested(totalUSDInvested);
     setTotalUSDPnl(usdPnl);
@@ -49,7 +50,7 @@ export default function PortfolioTable() {
 
     const gbpPnl = totalGBPValue - totalGBPInvested;
     const gbpPnlPct =
-      totalGBPInvested !== 0 ? (gbpPnl / totalGBPInvested) * 100 : 0; // Profit and Loss % of total GBP Invested
+      totalGBPInvested !== 0 ? (gbpPnl / totalGBPInvested) * percentAmount : 0; // Profit and Loss % of total GBP Invested
     setTotalGBPValue(totalGBPValue);
     setTotalGBPInvested(totalGBPInvested);
     setTotalGBPPnl(gbpPnl);
@@ -57,7 +58,7 @@ export default function PortfolioTable() {
 
     const eurPnl = totalEURValue - totalEURInvested;
     const eurPnlPct =
-      totalEURInvested !== 0 ? (eurPnl / totalEURInvested) * 100 : 0; // Profit and Loss % of total EUR Invested
+      totalEURInvested !== 0 ? (eurPnl / totalEURInvested) * percentAmount : 0; // Profit and Loss % of total EUR Invested
     setTotalEURValue(totalEURValue);
     setTotalEURInvested(totalEURInvested);
     setTotalEURPnl(eurPnl);
@@ -66,7 +67,10 @@ export default function PortfolioTable() {
 
   return (
     <div className="overflow-x-auto sm:overflow-hidden max-w-[600px] w-full m-8 bg-zinc-100 dark:bg-gray-900 border rounded-xl dark:border-neutral-600">
-      <table className="table-auto text-sm sm:text-base whitespace-nowrap min-w-[400px] w-full max-w-[800px]" aria-label="Portfolio table">
+      <table
+        className="table-auto text-sm sm:text-base whitespace-nowrap min-w-[400px] w-full max-w-[800px]"
+        aria-label="Portfolio table"
+      >
         <thead className="tracking-wider border-b-2 text-white dark:border-neutral-600 border-t">
           <tr className="bg-purple-600 border border-purple-500">
             <th

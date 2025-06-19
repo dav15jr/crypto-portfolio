@@ -99,25 +99,27 @@ export default function CryptoForm({
     }
   }
   function selectCoin(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.name === 'coin') {
-      setCoinSelected(e.target.value);
+
+    const { name, value } = e.target;
+    if (name === 'coin') {
+      setCoinSelected(value);
       //Find the coin object by its name
       const selectedCoin = coinList.find(
-        (coin) => coin.name === e.target.value
+        (coin) => coin.name === value
       );
       if (selectedCoin) {
         setCoinName(selectedCoin.id);
       } else {
         setCoinName('Coin not found');
       }
-    } else if (e.target.name === 'date') {
-      const selectedDate = e.target.value;
-      convDate(selectedDate);
-      setFormDate(selectedDate);
+    } else if (name === 'date') {
+      convDate(value);
+      setFormDate(value);
     }
   }
 
   function selectCurrency(e: React.ChangeEvent<HTMLSelectElement>) {
+
     if (e.target.value === 'usd') {
       setCoinCurrency({ name: 'usd', symbol: '$' });
     } else if (e.target.value === 'gbp') {
