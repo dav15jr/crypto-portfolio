@@ -30,11 +30,30 @@ export default function CryptoListProvider({
     getPortfolioFromLocalStorage()
   );
 
+const[loading, setLoading] = useState<boolean>(true); 
+const [error, setError] = useState<boolean>(false);
+
   async function getCoinsList(currency: Currency) {
+    setLoading(true);
+    setError(false);
+
+    try{
     const coinList = await fetchCoinList(currency.name);
 
+    if (!coinList.data ) {
+      throw new Error('Failed to fetch coin list');
+    } 
     setCoinList(coinList.data);
     setCoinTable(coinList.data);
+  
+    } catch(error){
+       setError(true);
+      console.error('Error fetching coin list:', error);
+    } finally{
+      setLoading(false);
+    }
+  
+  
   }
 
   useEffect(() => {
@@ -59,6 +78,8 @@ export default function CryptoListProvider({
         setCoinTable,
         portfolio,
         setPortfolio,
+        loading,
+        error
       }}
     >
       {children}

@@ -1,7 +1,7 @@
-'use client'
+'use client';
 import { useState, Dispatch, SetStateAction } from 'react';
-import { CoinInfo, Currency, Ledger } from '../types';
-import { useCryptoContext } from '../Context/context';
+import { CoinInfo, Currency, Ledger } from '../../types';
+import { useCryptoContext } from '../../Context/context';
 
 type DcaFormProps = {
   coinInfo: CoinInfo;

@@ -37,6 +37,8 @@ export type Context = {
         setCoinTable: React.Dispatch<React.SetStateAction<Coin[]>>
         portfolio : Ledger[]
         setPortfolio : React.Dispatch<React.SetStateAction<Ledger[]>>
+        loading: boolean
+        error: boolean
       }
 
 export type Ledger = {
