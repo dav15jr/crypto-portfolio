@@ -106,7 +106,7 @@ export default function PortfolioChart() {
   const chartData = processChartData();
 
   return (
-    <Card className="bg-purple-50 shadow-sm border border-border m-3 w-full sm:w-3/4 max-w-[800px]">
+    <Card className="bg-purple-50 shadow-sm border border-border m-3 w-full max-h-[800px] sm:w-3/4 max-w-[800px]">
       <CardHeader className="space-y-1 text-center text-lg text-black">
         <CardTitle>Portfolio Value Over Time</CardTitle>
         <CardDescription>
@@ -115,7 +115,7 @@ export default function PortfolioChart() {
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <ResponsiveContainer width="100%" height={400}>
+          <ResponsiveContainer width="100%" height={400} maxHeight={700}>
             <AreaChart
               data={chartData}
               margin={{
