@@ -1,13 +1,14 @@
-'use client'
+'use client';
 import { useState, Dispatch, SetStateAction } from 'react';
-import { CoinInfo, Currency, Ledger } from '../types';
-import { useCryptoContext } from '../Context/context';
+import { CoinInfo, Currency, Ledger } from '../../types';
+import { useCryptoContext } from '../../Context/context';
 
 type DcaFormProps = {
   coinInfo: CoinInfo;
   coinPrice: string;
   setCoinName: Dispatch<SetStateAction<string>>;
   coinQty: string;
+  formDate: string;
   setCoinDate: Dispatch<SetStateAction<string>>;
   invAmount: string;
   setFormDate: Dispatch<SetStateAction<string>>;
@@ -25,6 +26,7 @@ export default function DcaForm({
   coinPrice,
   setCoinName,
   coinQty,
+  formDate,
   setCoinDate,
   invAmount,
   setFormDate,
@@ -39,7 +41,7 @@ export default function DcaForm({
   const [dcaType, setDcaType] = useState<string>('amount');
   const { setPortfolio } = useCryptoContext();
 
-  function handleDca(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleDcaChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.name === 'amount') {
       const amount = e.target.value;
       const invQuantity = (Number(amount) / Number(coinPrice))
@@ -58,7 +60,8 @@ export default function DcaForm({
       setInvAmount(invAmount);
     }
   }
-  function getDca(e: React.FormEvent<HTMLFormElement>) {
+
+  function addDcaCoin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setShowDcaForm(false);
 
@@ -66,7 +69,6 @@ export default function DcaForm({
 
     setPortfolio((prev: Ledger[]) => {
       const updatedPortfolio = prev.map((item) => {
-        // Check if the coin symbol (btc) & currency(usd) already exists in the portfolio, if so merge and Update stored entry
         if (
           item.symbol === coinInfo.symbol &&
           item.currency.name === coinCurrency.name
@@ -85,20 +87,18 @@ export default function DcaForm({
             .toString();
           const newValue = Number(priceNow) * Number(totalQty);
 
-          // Update the existing entry
           return {
             ...item,
             investedPrice: avgPrice,
             investedAmount: totalInvested,
             quantity: totalQty,
             currentValue: newValue,
+            purchaseDate: formDate, // Use the purchase date state
           };
-        } else {
-          // Return unchanged items
-          return item;
         }
+        return item;
       });
-      // If the coin symbol (btc) & currency(usd) wasn't found in the previous array, add a new entry
+
       const isCoinInPortfolio = prev.some(
         (item) =>
           item.symbol === coinInfo.symbol &&
@@ -118,18 +118,20 @@ export default function DcaForm({
             quantity: coinQty,
             currentPrice: priceNow,
             currentValue: dcaValue,
+            purchaseDate: formDate, // Use the purchase date state
           },
         ];
       }
       return updatedPortfolio;
     });
+
+    // Reset form
     setCoinDate('');
     setCoinName('');
     setInvAmount('');
     setCoinQty('');
     setFormDate('');
     setCoinSelected('');
-    setFormDate('');
     setCoinCurrency({ name: '', symbol: '' });
   }
 
@@ -139,7 +141,7 @@ export default function DcaForm({
         Select Your Investment Type
       </h2>
       <form
-        onSubmit={getDca}
+        onSubmit={addDcaCoin}
         title="Investment type"
         className="dark:text-black flex flex-col sm:flex-row p-2 max-w-[400px] sm:max-w-[900px] mx-auto"
         aria-label="crypto coin quantity form"
@@ -178,7 +180,7 @@ export default function DcaForm({
                 id="amount"
                 placeholder="Investment amount"
                 value={invAmount}
-                onChange={handleDca}
+                onChange={handleDcaChange}
                 className="border border-purple-900 rounded-xl p-2 m-1 w-full sm:w-auto"
                 required
               />
@@ -197,7 +199,7 @@ export default function DcaForm({
                 id="qty"
                 placeholder="Coin quantity"
                 value={coinQty}
-                onChange={handleDca}
+                onChange={handleDcaChange}
                 className="border border-purple-900 rounded-xl p-2 m-1"
                 required
               />
