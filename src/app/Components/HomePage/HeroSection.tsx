@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
-import heroImage from '../../../public/assets/cryptoHero-01.png'
+import heroImage from '../../../../public/assets/cryptoHero-01.png'; // Adjust the path as necessary
 
 export default function HeroSection() {
   return (
